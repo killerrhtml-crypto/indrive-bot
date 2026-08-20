@@ -22,7 +22,7 @@ jobs:
       - name: Dar permisos de ejecución a gradlew
         run: chmod +x gradlew
       - name: Compilar APK de Debug
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon --stacktrace --info
       - name: Subir APK generado como artefacto
         uses: actions/upload-artifact@v4
         with:
