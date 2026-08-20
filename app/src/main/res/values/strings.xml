@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InDrive Bot</string>
+    <string name="accessibility_service_description">Servicio de automatización InDrive Bot</string>
+    <string name="login_title">InDrive Bot</string>
+    <string name="login_subtitle">Sincronización en tiempo real</string>
+    <string name="backend_url_hint">URL del backend WebSocket</string>
+    <string name="connect">Conectar</string>
+    <string name="service_status">Servicio de accesibilidad: %1$s</string>
+    <string name="service_active">Activo</string>
+    <string name="service_inactive">Inactivo</string>
+    <string name="admin_login_title">ACCESO ADMINISTRADOR</string>
+    <string name="admin_login_subtitle">Ingresa tu PIN numérico de seguridad</string>
+    <string name="admin_pin_hint">PIN de acceso</string>
+    <string name="admin_login_button">INGRESAR</string>
+    <string name="admin_pin_length_error">Ingresa un PIN de 4 a 6 dígitos</string>
+    <string name="admin_pin_invalid_error">PIN incorrecto</string>
+    <string name="admin_dashboard_title">Dashboard de Administración</string>
+    <string name="admin_account">Cuenta activa: %1$s</string>
+    <string name="drivers_section_title">Choferes y licencias</string>
+    <string name="driver_status">Estado: %1$s</string>
+    <string name="driver_expiry">Vencimiento: %1$s</string>
+    <string name="driver_expiry_unassigned">Vencimiento: sin asignar</string>
+    <string name="driver_set_expiry">Asignar fecha de vencimiento</string>
+    <string name="driver_accept">ACEPTAR</string>
+    <string name="driver_reject">RECHAZAR</string>
+    <string name="driver_status_updated">Estado del chofer actualizado</string>
+    <string name="support_message_hint">Mensaje para soporte o choferes</string>
+    <string name="support_send">ENVIAR</string>
+    <string name="support_message_required">Escribe un mensaje</string>
+    <string name="support_message_sent">Mensaje enviado</string>
+</resources>
