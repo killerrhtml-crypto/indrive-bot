@@ -37,5 +37,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("io.github.sceneview:sceneview:1.0.10")
+    implementation("io.github.sceneview:sceneview:1.2.1")
+    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
 }
