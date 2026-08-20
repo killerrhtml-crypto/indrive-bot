@@ -37,6 +37,12 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("io.github.sceneview:sceneview:1.2.1")
-    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
+    implementation("io.github.sceneview:sceneview:1.2.1") {
+        exclude(group = "androidx.compose.foundation")
+        exclude(group = "androidx.compose.ui")
+        exclude(group = "androidx.compose.animation")
+        exclude(group = "androidx.compose.runtime")
+    }
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 }
