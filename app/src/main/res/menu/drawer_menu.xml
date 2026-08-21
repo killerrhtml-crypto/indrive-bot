@@ -48,7 +48,7 @@
                 <item
                     android:id="@+id/nav_analytics"
                     android:icon="@drawable/ic_analytics"
-                    android:title="Analytics & Logs" />
+                    android:title="Analytics &amp; Logs" />
                 <item
                     android:id="@+id/nav_security"
                     android:icon="@drawable/ic_security"
@@ -56,7 +56,7 @@
                 <item
                     android:id="@+id/nav_backup"
                     android:icon="@drawable/ic_backup"
-                    android:title="Backup & Restore" />
+                    android:title="Backup &amp; Restore" />
             </menu>
         </item>
     </group>
