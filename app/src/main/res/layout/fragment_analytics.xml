@@ -33,6 +33,6 @@
             android:text="Cargando datos..."
             android:textColor="#8C9BA5"
             android:textSize="12sp"
-            android:textMonospace="true" />
+            android:fontFamily="monospace" />
     </ScrollView>
 </LinearLayout>
