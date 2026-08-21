@@ -29,6 +29,9 @@ class SplashActivity : AppCompatActivity() {
         startButton.visibility = View.INVISIBLE
         startButton.alpha = 0f
 
+        AppUpdater.checkForUpdate(this) { updateInfo ->
+            AppUpdater.downloadUpdate(applicationContext, updateInfo)
+        }
         loadHorseModel()
         mainHandler.postDelayed(showButton, SPLASH_DURATION_MS)
         startButton.setOnClickListener {
