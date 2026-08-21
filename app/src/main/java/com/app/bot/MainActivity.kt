@@ -5,25 +5,45 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.accessibility.AccessibilityManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.app.bot.config.ConfigurationManager
+import com.app.bot.config.ProUserManager
 import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var configManager: ConfigurationManager
+    private lateinit var proUserManager: ProUserManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Inicializar gestores de configuración
+        configManager = ConfigurationManager(this)
+        proUserManager = ProUserManager(this)
 
         val backendUrlInput = findViewById<TextInputEditText>(R.id.backendUrlInput)
         val connectButton = findViewById<Button>(R.id.connectButton)
         val serviceStatus = findViewById<TextView>(R.id.serviceStatus)
         val preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-        backendUrlInput.setText(preferences.getString(BACKEND_URL_KEY, DEFAULT_BACKEND_URL))
+        // Cargar configuración local
+        val localConfig = configManager.getLocalConfig()
+        val savedUrl = preferences.getString(BACKEND_URL_KEY, DEFAULT_BACKEND_URL)
+        
+        backendUrlInput.setText(savedUrl)
         serviceStatus.text = getString(R.string.service_status, getServiceState())
+
+        // Debug: Mostrar información de configuración
+        val isProUser = proUserManager.isProUser()
+        Log.d("MainActivity", "🔍 Modo: ${if (isProUser) "PRO" else "BÁSICO"}")
+        Log.d("MainActivity", "📋 Config Version: ${localConfig.optString("version")}")
+        Log.d("MainActivity", "📍 Admin ID: ${proUserManager.getAdminId()}")
 
         connectButton.setOnClickListener {
             val url = backendUrlInput.text?.toString()?.trim().orEmpty()

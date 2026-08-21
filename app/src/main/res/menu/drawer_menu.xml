@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- MENÚ BÁSICO (Disponible para todos) -->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_dashboard"
@@ -13,5 +15,49 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="Settings" />
+    </group>
+
+    <!-- MENÚ PRO/ADMIN (Solo visible si usuario es PRO) -->
+    <group
+        android:id="@+id/admin_menu_group"
+        android:checkableBehavior="single"
+        android:visibility="gone">
+        
+        <item android:title="KING ADMIN NODE">
+            <menu>
+                <item
+                    android:id="@+id/nav_admin_dashboard"
+                    android:icon="@drawable/ic_admin_pro"
+                    android:title="Admin Dashboard" />
+                <item
+                    android:id="@+id/nav_global_settings"
+                    android:icon="@drawable/ic_settings"
+                    android:title="Global Settings" />
+                <item
+                    android:id="@+id/nav_client_management"
+                    android:icon="@drawable/ic_users"
+                    android:title="Client Management" />
+                <item
+                    android:id="@+id/nav_license_manager"
+                    android:icon="@drawable/ic_license"
+                    android:title="License Manager" />
+                <item
+                    android:id="@+id/nav_bot_command"
+                    android:icon="@drawable/ic_bot"
+                    android:title="Bot Command Center" />
+                <item
+                    android:id="@+id/nav_analytics"
+                    android:icon="@drawable/ic_analytics"
+                    android:title="Analytics & Logs" />
+                <item
+                    android:id="@+id/nav_security"
+                    android:icon="@drawable/ic_security"
+                    android:title="Security Settings" />
+                <item
+                    android:id="@+id/nav_backup"
+                    android:icon="@drawable/ic_backup"
+                    android:title="Backup & Restore" />
+            </menu>
+        </item>
     </group>
 </menu>

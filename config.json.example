@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "mode": "BASIC",
+  "appName": "InDrive Bot",
+  "supportedFeatures": [
+    "automation",
+    "basic_analytics"
+  ],
+  "apiEndpoint": "https://api.example.com",
+  "maxConcurrentTasks": 1,
+  "updateCheckInterval": 86400,
+  "botConfig": {
+    "maxRetries": 3,
+    "requestTimeout": 30000,
+    "enableLogging": true
+  }
+}
