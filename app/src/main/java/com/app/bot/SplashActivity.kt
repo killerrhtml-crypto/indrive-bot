@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.lottie.LottieAnimationView
 import io.github.sceneview.SceneView
 import io.github.sceneview.node.ModelNode
 
@@ -14,6 +15,7 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var sceneView: SceneView
     private lateinit var startButton: Button
+    private lateinit var lionAnimation: LottieAnimationView
     private val mainHandler = Handler(Looper.getMainLooper())
     private val showButton = Runnable {
         startButton.visibility = View.VISIBLE
@@ -26,6 +28,9 @@ class SplashActivity : AppCompatActivity() {
 
         sceneView = findViewById(R.id.sceneView3D)
         startButton = findViewById(R.id.btnStart)
+        lionAnimation = findViewById(R.id.lottieLion)
+        lionAnimation.setAnimation(R.raw.king_system_anim)
+        lionAnimation.playAnimation()
         startButton.visibility = View.INVISIBLE
         startButton.alpha = 0f
 
@@ -56,8 +61,19 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         mainHandler.removeCallbacks(showButton)
+        lionAnimation.cancelAnimation()
         sceneView.destroy()
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::lionAnimation.isInitialized) lionAnimation.resumeAnimation()
+    }
+
+    override fun onPause() {
+        lionAnimation.pauseAnimation()
+        super.onPause()
     }
 
     companion object {

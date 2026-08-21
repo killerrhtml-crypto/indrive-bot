@@ -39,6 +39,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.airbnb.android:lottie:6.0.0")
     implementation("io.github.sceneview:sceneview:1.2.1") {
         exclude(group = "androidx.compose.foundation")
         exclude(group = "androidx.compose.ui")
