@@ -30,7 +30,7 @@ class ConfigurationManager(private val context: Context) {
      * Obtiene la configuración local si existe, sino retorna configuración por defecto
      */
     fun getLocalConfig(): JSONObject {
-        return try {
+        try {
             if (configFile.exists()) {
                 val configJson = JSONObject(configFile.readText(StandardCharsets.UTF_8))
                 Log.d(TAG, "✅ Configuración local cargada: versión ${configJson.optString("version")}")
