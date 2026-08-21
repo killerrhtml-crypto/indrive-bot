@@ -41,14 +41,14 @@ class SplashActivity : AppCompatActivity() {
         val hasModel = assets.list(ASSET_DIRECTORY)?.contains(MODEL_FILE) == true
         if (!hasModel) return
 
-        val modelNode = ModelNode(sceneView.engine).apply {
-            loadModelGlbAsync(
-                context = this@SplashActivity,
-                glbFileLocation = MODEL_FILE,
-                autoAnimate = true
-            )
-        }
-        sceneView.addChildNode(modelNode)
+        sceneView.modelLoader.loadModelInstanceAsync(
+            fileLocation = MODEL_FILE,
+            onResult = { modelInstance ->
+                modelInstance?.let {
+                    sceneView.addChildNode(ModelNode(it, autoAnimate = true))
+                }
+            }
+        )
     }
 
     override fun onDestroy() {
