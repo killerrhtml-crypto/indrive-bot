@@ -3,28 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0B0E14"
-    android:gravity="center"
     android:orientation="vertical"
-    android:padding="28dp">
+    android:padding="16dp">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SYSTEM UPDATES"
+        android:text="🔄 Verificar Actualizaciones"
         android:textColor="#FFFFFF"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
-    <TextView
-        android:id="@+id/updateStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Check Render for a new release"
-        android:textColor="#8C9BA5"
-        android:textSize="14sp" />
-    <Button
-        android:id="@+id/checkUpdatesButton"
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="16dp"
+        android:background="#2C3E50" />
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="CHECK FOR UPDATES" />
+        android:layout_margin="8dp"
+        android:backgroundTint="#1E3A5F">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Versión Actual"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="v1.0.0"
+                android:textColor="#2563EB"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#10B981"
+                android:text="✓ Ya tienes la última versión"
+                android:textColor="#FFFFFF"
+                android:enabled="false" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
