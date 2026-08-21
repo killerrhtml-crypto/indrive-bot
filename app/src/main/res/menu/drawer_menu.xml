@@ -27,35 +27,35 @@
             <menu>
                 <item
                     android:id="@+id/nav_admin_dashboard"
-                    android:icon="@drawable/ic_admin_pro"
+                    android:icon="@android:drawable/ic_menu_dashboard"
                     android:title="Admin Dashboard" />
                 <item
                     android:id="@+id/nav_global_settings"
-                    android:icon="@drawable/ic_settings"
+                    android:icon="@android:drawable/ic_menu_preferences"
                     android:title="Global Settings" />
                 <item
                     android:id="@+id/nav_client_management"
-                    android:icon="@drawable/ic_users"
+                    android:icon="@android:drawable/ic_menu_myplaces"
                     android:title="Client Management" />
                 <item
                     android:id="@+id/nav_license_manager"
-                    android:icon="@drawable/ic_license"
+                    android:icon="@android:drawable/ic_menu_info_details"
                     android:title="License Manager" />
                 <item
                     android:id="@+id/nav_bot_command"
-                    android:icon="@drawable/ic_bot"
+                    android:icon="@android:drawable/ic_menu_manage"
                     android:title="Bot Command Center" />
                 <item
                     android:id="@+id/nav_analytics"
-                    android:icon="@drawable/ic_analytics"
+                    android:icon="@android:drawable/ic_menu_sort_by_size"
                     android:title="Analytics &amp; Logs" />
                 <item
                     android:id="@+id/nav_security"
-                    android:icon="@drawable/ic_security"
+                    android:icon="@android:drawable/ic_lock_lock"
                     android:title="Security Settings" />
                 <item
                     android:id="@+id/nav_backup"
-                    android:icon="@drawable/ic_backup"
+                    android:icon="@android:drawable/ic_menu_save"
                     android:title="Backup &amp; Restore" />
             </menu>
         </item>
