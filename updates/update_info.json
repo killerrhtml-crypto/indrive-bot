@@ -1,6 +1,6 @@
 {
   "latestVersionCode": 1,
   "latestVersionName": "1.0.0",
-  "apkUrl": "https://indrive-bot-updates.onrender.com/updates/app-debug.apk",
-  "releaseNotes": "Actualizacion de pruebas para InDrive Bot. Sustituye esta URL por el APK publicado en Render."
+  "apkUrl": "https://indrive-bot.onrender.com/updates/app-debug.apk",
+  "releaseNotes": "Actualizacion de pruebas para InDrive Bot."
 }
