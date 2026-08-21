@@ -65,6 +65,6 @@
             android:text="✅ Esperando comandos..."
             android:textColor="#10B981"
             android:textSize="12sp"
-            android:textMonospace="true" />
+            android:fontFamily="monospace" />
     </ScrollView>
 </LinearLayout>
