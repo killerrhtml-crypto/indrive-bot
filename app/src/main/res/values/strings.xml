@@ -30,4 +30,8 @@
     <string name="support_message_required">Escribe un mensaje</string>
     <string name="support_message_sent">Mensaje enviado</string>
     <string name="lion_animation_description">Animación vectorial de King System</string>
+    <string name="king_system_logo_description">Logotipo vectorial de King System</string>
+    <string name="update_checking">Consultando actualizaciones...</string>
+    <string name="update_download_started">Descargando la versión %1$s</string>
+    <string name="update_download_started_short">Descarga iniciada</string>
 </resources>
