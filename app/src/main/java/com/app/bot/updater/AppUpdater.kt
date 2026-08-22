@@ -14,11 +14,10 @@ import javax.net.ssl.HttpsURLConnection
 
 class AppUpdater(private val context: Context) {
 
-    // URL directa al release en GitHub o al JSON de control
     private val updateCheckUrl = "https://github.com/killerrhtml-crypto/indrive-bot/releases/tag/latest"
 
     fun checkForUpdatesManual() {
-        Toast.initSafe(context, "Verificando actualizaciones...", Toast.LENGTH_SHORT)
+        Toast.makeText(context, "Verificando actualizaciones...", Toast.LENGTH_SHORT).show()
         
         Thread {
             try {
@@ -37,18 +36,17 @@ class AppUpdater(private val context: Context) {
                     }
                     reader.close()
 
-                    // Si hay conexión y responde correctamente
                     Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(context, "La aplicación está al día o puedes revisar el repositorio.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Redirigiendo a actualizaciones...", Toast.LENGTH_LONG).show()
                         openUpdatePage()
                     }
                 } else {
                     throw Exception("Servidor no disponible")
                 }
             } catch (e: Exception) {
-                // Modo offline o sin conexión: la app no se cae ni bloquea nada
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(context, "Sin conexión a internet. Funcionando en modo local.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Sin conexión. Abriendo enlace directo...", Toast.LENGTH_SHORT).show()
+                    openUpdatePage()
                 }
             }
         }.start()
@@ -60,7 +58,7 @@ class AppUpdater(private val context: Context) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         } catch (e: Exception) {
-            // Evita cierre forzoso si no hay navegador disponible
+            // Evita cierre forzoso
         }
     }
 }
