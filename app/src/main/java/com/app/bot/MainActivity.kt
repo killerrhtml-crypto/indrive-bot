@@ -1,4 +1,4 @@
-package com.app.bot.ui
+package com.app.bot
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.provider.Settings
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.app.bot.R
 import com.app.bot.config.ConfigurationManager
 import com.app.bot.config.ProUserManager
 import com.google.android.material.textfield.TextInputEditText
@@ -23,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         val connectButton = findViewById<Button>(R.id.connectButton)
 
         try {
-            // Inicialización controlada
             val configManager = ConfigurationManager(this)
             val proUserManager = ProUserManager(this)
             val preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
@@ -39,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         } catch (e: Throwable) {
-            // Si ocurre CUALQUIER error, lo atrapamos y lo mostramos en pantalla para leerlo
             serviceStatus?.text = "CRASH: ${e.localizedMessage ?: e.javaClass.simpleName}"
             serviceStatus?.textSize = 14f
         }
