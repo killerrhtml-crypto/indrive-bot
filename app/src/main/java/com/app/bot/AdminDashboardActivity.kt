@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class AdminDashboardActivity : AppCompatActivity() {
     private lateinit var updater: AppUpdater
+    private val CURRENT_VERSION_CODE = 1 // Sube este número localmente cuando hagas mejoras grandes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,24 +17,15 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         updater = AppUpdater(this)
         
-        // Chequeo silencioso en segundo plano al abrir el panel
-        updater.checkForUpdates(1, false)
+        // 1. Chequeo automático en cuanto abres la app (Silencioso)
+        updater.checkForUpdates(CURRENT_VERSION_CODE, false)
 
-        val btnAccessibility = findViewById<Button>(R.id.btnAccessibility)
-        val btnStartBot = findViewById<Button>(R.id.btnStartBot)
         val btnCheckUpdates = findViewById<Button>(R.id.btnCheckUpdates)
-
-        btnAccessibility?.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-        }
-
-        btnStartBot?.setOnClickListener {
-            Toast.makeText(this, "Bot Activado en segundo plano", Toast.LENGTH_SHORT).show()
-        }
         
+        // 2. Chequeo manual tocando el botón de la nube/actualizar
         btnCheckUpdates?.setOnClickListener {
-            Toast.makeText(this, "Conectando con Render...", Toast.LENGTH_SHORT).show()
-            updater.checkForUpdates(1, true)
+            Toast.makeText(this, "Conectando con la nube...", Toast.LENGTH_SHORT).show()
+            updater.checkForUpdates(CURRENT_VERSION_CODE, true)
         }
     }
 }
