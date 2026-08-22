@@ -35,26 +35,28 @@ class AdminDashboardActivity : AppCompatActivity() {
         val btnAccessibility = findViewById<Button>(R.id.btnAccessibilityAction)
         val recyclerRequests = findViewById<RecyclerView>(R.id.recyclerRequests)
 
-        // Abrir menú lateral estilo Sandys al pulsar el botón izquierdo
+        // Abrir menú lateral
         btnMenu.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // Verificación de actualizaciones desde el contenedor nube superior
+        // Variable para almacenar la URL de descarga detectada
+        var pendingApkUrl: String? = null
+
+        // Chequeo inicial en segundo plano
         updater.checkForUpdates(CURRENT_VERSION_CODE) { apkUrl ->
-            ivCloudStatus.setColorFilter(0xFFFF5252.toInt()) // Rojo si hay update
-            Toast.makeText(this, "¡Nueva actualización disponible en la nube!", Toast.LENGTH_LONG).show()
-            
-            cloudContainer.setOnClickListener {
-                Toast.makeText(this, "Descargando actualización...", Toast.LENGTH_SHORT).show()
-                updater.downloadAndInstall(apkUrl)
-            }
+            pendingApkUrl = apkUrl
+            ivCloudStatus.setColorFilter(0xFFFF5252.toInt()) // Rojo = Actualización lista
+            Toast.makeText(this, "¡Nueva versión disponible en la nube!", Toast.LENGTH_SHORT).show()
         }
 
+        // Único listener optimizado para el contenedor de la nube (Paso 1 resuelto)
         cloudContainer.setOnClickListener {
-            Toast.makeText(this, "El sistema está actualizado (Al día)", Toast.LENGTH_SHORT).show()
-            updater.checkForUpdates(CURRENT_VERSION_CODE) { apkUrl ->
-                updater.downloadAndInstall(apkUrl)
+            val url = pendingApkUrl
+            if (url != null) {
+                updater.downloadAndInstall(url)
+            } else {
+                Toast.makeText(this, "El sistema ya se encuentra actualizado (Al día)", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -62,7 +64,7 @@ class AdminDashboardActivity : AppCompatActivity() {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
 
-        // Tabla inferior de solicitudes de servicios y licencias
+        // Carga de datos de prueba para la tabla de gestión de usuarios/licencias
         val sampleRequests = listOf(
             Driver("Carlos Mendoza", "carlos@driver.com", "Solicita Licencia", "Pendiente"),
             Driver("Ana Rodríguez", "ana@driver.com", "Servicio Activo", "Aprobado"),
@@ -71,7 +73,7 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         recyclerRequests.layoutManager = LinearLayoutManager(this)
         recyclerRequests.adapter = DriversAdapter(sampleRequests) { driver, _ ->
-            Toast.makeText(this, "Gestionando solicitud de: ${driver.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Gestionando usuario: ${driver.name}", Toast.LENGTH_SHORT).show()
         }
     }
 }
