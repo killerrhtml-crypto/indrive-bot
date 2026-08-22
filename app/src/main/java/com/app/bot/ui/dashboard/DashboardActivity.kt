@@ -51,14 +51,12 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
-        // Modal desplegable interno con detalles exactos de actualización y fecha/hora
         btnOpenUpdateModal.setOnClickListener {
             showUpdateDialog(tvLog)
         }
     }
 
     private fun showUpdateDialog(tvLog: TextView) {
-        Toast.Instance?.let {} // no-op safeguard
         Toast.makeText(this, "Consultando información de versión...", Toast.LENGTH_SHORT).show()
 
         Thread {
@@ -79,7 +77,6 @@ class DashboardActivity : AppCompatActivity() {
                     val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
                     Handler(Looper.getMainLooper()).post {
-                        // Desplegamos el menú flotante con información detallada in-app
                         AlertDialog.Builder(this)
                             .setTitle("Gestión de Actualización OTA")
                             .setMessage("Detalles de la versión en la nube:\n\n• Fecha de verificación: $currentDate\n• Estado: Disponible para descarga directa\n• Servidor: GitHub Releases (In-App)")

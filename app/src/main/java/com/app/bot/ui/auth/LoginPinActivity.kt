@@ -19,7 +19,6 @@ class LoginPinActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             val pin = etPin.text.toString().trim()
-            // PIN por defecto configurable ("1234" o el que prefieras)
             if (pin == "1234") {
                 startActivity(Intent(this, DashboardActivity::class.java))
                 finish()
