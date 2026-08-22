@@ -2,9 +2,7 @@ package com.app.bot.updater
 
 import android.app.DownloadManager
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -25,14 +23,14 @@ class AppUpdater(private val context: Context) {
                 val json = JSONObject(response)
                 val latestVersion = json.getInt("versionCode")
                 val apkUrl = json.getString("apkUrl")
-                
+
                 Handler(Looper.getMainLooper()).post {
                     if (latestVersion > currentVersionCode) {
                         onUpdateAvailable(apkUrl)
                     }
                 }
             } catch (e: Exception) {
-                // Silencioso en segundo plano
+                e.printStackTrace()
             }
         }
     }
@@ -44,15 +42,18 @@ class AppUpdater(private val context: Context) {
 
         val request = DownloadManager.Request(Uri.parse(apkUrl))
             .setTitle("King System Pro")
-            .setDescription("Descargando actualización modular...")
+            .setDescription("Descargando actualización del sistema...")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationUri(Uri.fromFile(destination))
-            .setAllowedOverMetered(true)
-            .setAllowedOverRoaming(true)
 
         val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        manager.enqueue(request)
-        
+        val downloadId = manager.enqueue(request)
+
+        context.getSharedPreferences("updates", Context.MODE_PRIVATE)
+            .edit()
+            .putLong("last_download_id", downloadId)
+            .apply()
+
         Toast.makeText(context, "Descargando actualización en segundo plano...", Toast.LENGTH_LONG).show()
     }
 
@@ -61,15 +62,16 @@ class AppUpdater(private val context: Context) {
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
         if (!file.exists()) return
 
-        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-        } else {
-            Uri.fromFile(file)
-        }
+        val apkUri: Uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            file
+        )
 
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, "application/vnd.android.package-archive")
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+            setDataAndType(apkUri, "application/vnd.android.package-archive")
+            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(intent)
     }
