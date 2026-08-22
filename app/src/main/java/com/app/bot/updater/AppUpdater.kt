@@ -1,78 +1,66 @@
 package com.app.bot.updater
 
-import android.app.DownloadManager
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.core.content.FileProvider
-import org.json.JSONObject
-import java.io.File
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.concurrent.thread
+import javax.net.ssl.HttpsURLConnection
 
 class AppUpdater(private val context: Context) {
-    private val updateUrl = "https://indrive-bot.onrender.com/update_info.json"
 
-    fun checkForUpdates(currentVersionCode: Int, onUpdateAvailable: (String) -> Unit) {
-        thread {
+    // URL directa al release en GitHub o al JSON de control
+    private val updateCheckUrl = "https://github.com/killerrhtml-crypto/indrive-bot/releases/tag/latest"
+
+    fun checkForUpdatesManual() {
+        Toast.initSafe(context, "Verificando actualizaciones...", Toast.LENGTH_SHORT)
+        
+        Thread {
             try {
-                val response = URL(updateUrl).readText()
-                val json = JSONObject(response)
-                val latestVersion = json.getInt("versionCode")
-                val apkUrl = json.getString("apkUrl")
+                val url = URL("https://raw.githubusercontent.com/killerrhtml-crypto/indrive-bot/main/update_info.json")
+                val connection = url.openConnection() as HttpsURLConnection
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+                connection.requestMethod = "GET"
 
-                Handler(Looper.getMainLooper()).post {
-                    if (latestVersion > currentVersionCode) {
-                        onUpdateAvailable(apkUrl)
+                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                    val response = StringBuilder()
+                    var line: String?
+                    while (reader.readLine().also { line = reader.readLine() } != null) {
+                        response.append(line)
                     }
+                    reader.close()
+
+                    // Si hay conexión y responde correctamente
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(context, "La aplicación está al día o puedes revisar el repositorio.", Toast.LENGTH_LONG).show()
+                        openUpdatePage()
+                    }
+                } else {
+                    throw Exception("Servidor no disponible")
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                // Modo offline o sin conexión: la app no se cae ni bloquea nada
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(context, "Sin conexión a internet. Funcionando en modo local.", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+        }.start()
     }
 
-    fun downloadAndInstall(apkUrl: String) {
-        val fileName = "KingSystem_Update.apk"
-        val destination = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
-        if (destination.exists()) destination.delete()
-
-        val request = DownloadManager.Request(Uri.parse(apkUrl))
-            .setTitle("King System Pro")
-            .setDescription("Descargando actualización del sistema...")
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationUri(Uri.fromFile(destination))
-
-        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val downloadId = manager.enqueue(request)
-
-        context.getSharedPreferences("updates", Context.MODE_PRIVATE)
-            .edit()
-            .putLong("last_download_id", downloadId)
-            .apply()
-
-        Toast.makeText(context, "Descargando actualización en segundo plano...", Toast.LENGTH_LONG).show()
-    }
-
-    fun installApk() {
-        val fileName = "KingSystem_Update.apk"
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
-        if (!file.exists()) return
-
-        val apkUri: Uri = FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.fileprovider",
-            file
-        )
-
-        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
-            setDataAndType(apkUri, "application/vnd.android.package-archive")
-            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+    private fun openUpdatePage() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateCheckUrl))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            // Evita cierre forzoso si no hay navegador disponible
         }
-        context.startActivity(intent)
     }
 }
