@@ -1,20 +1,19 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="InDrive Bot"
+        android:label="King System Pro"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
-        tools:targetApi="31">
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
+        <!-- Actividad de Arranque (Splash) -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -24,22 +23,15 @@
             </intent-filter>
         </activity>
 
+        <!-- Pantalla de PIN de Seguridad -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginPinActivity"
             android:exported="false" />
 
-        <service
-            android:name=".InDriveBotService"
-            android:exported="false"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config" />
-        </service>
+        <!-- Panel de Control Principal del Operador -->
+        <activity
+            android:name=".AdminDashboardActivity"
+            android:exported="false" />
 
     </application>
-
 </manifest>

@@ -11,10 +11,9 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Transición automática limpia y segura a la MainActivity
+        // Espera 1.5 segundos y pasa directamente al Login de PIN
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LoginPinActivity::class.java))
             finish()
         }, 1500)
     }
