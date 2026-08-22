@@ -1,7 +1,20 @@
 <resources>
-    <string name="app_name">InDrive Bot</string>
+    <!-- Textos Básicos y Estado -->
+    <string name="app_name">InDrive Bot Pro</string>
     <string name="status_ok">Estado: Todo OK al iniciar</string>
     <string name="btn_configure">Configurar y Conectar</string>
-    <string name="login_pin_title">Ingresa tu PIN</string>
-    <string name="dashboard_title">Panel de Control</string>
+    <string name="login_pin_title">Ingresa tu PIN Maestro</string>
+    <string name="dashboard_title">Panel de Control Local</string>
+
+    <!-- Textos del Panel de Administración -->
+    <string name="admin_dashboard_title">Administración King System Pro</string>
+    <string name="drivers_section_title">Monitor de Conductores</string>
+
+    <!-- Soporte y Comunicación -->
+    <string name="support_message_hint">Escribe un mensaje para el equipo de soporte...</string>
+    <string name="support_send">Enviar Consulta</string>
+
+    <!-- Descripciones de Accesibilidad y Multimedia -->
+    <string name="king_system_logo_description">Emblema del Sistema King</string>
+    <string name="accessibility_service_description">Servicio maestro de lectura de pantalla y ejecución automática de gestos.</string>
 </resources>
