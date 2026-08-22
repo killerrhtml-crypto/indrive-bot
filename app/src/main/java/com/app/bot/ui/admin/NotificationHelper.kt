@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.app.bot.R
 
 class NotificationHelper(private val context: Context) {
 

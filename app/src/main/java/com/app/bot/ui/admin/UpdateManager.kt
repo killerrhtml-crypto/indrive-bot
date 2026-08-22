@@ -38,7 +38,7 @@ class UpdateManager(private val context: Context, private val tvLog: TextView) {
 
                     Handler(Looper.getMainLooper()).post {
                         tvLog.append("\n[OTA] Versión más reciente disponible.")
-                        Toast.makeText(context, "Descargando actualización en segundo plano...", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Descargando actualización...", Toast.LENGTH_LONG).show()
                         downloadAndInstallApk("https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk")
                     }
                 } else {
@@ -66,7 +66,7 @@ class UpdateManager(private val context: Context, private val tvLog: TextView) {
             val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             manager.enqueue(request)
             
-            tvLog.append("\n[OTA] APK descargado en la carpeta de Descargas.")
+            tvLog.append("\n[OTA] APK descargado en Descargas.")
         } catch (e: Exception) {
             Toast.makeText(context, "Error al descargar: ${e.message}", Toast.LENGTH_LONG).show()
         }

@@ -22,8 +22,6 @@ class BotController(
             btnToggleBot.text = "DETENER BOT"
             btnToggleBot.setBackgroundColor(Color.parseColor("#D32F2F"))
             tvLog.append("\n[Bot] Automatización iniciada correctamente.")
-            
-            // Notificación nativa interna
             notificationHelper.showNotification("InDrive Bot", "El bot se ha iniciado y está operando.", 101)
         } else {
             tvStatus.text = "Inactivo (Listo para iniciar)"
@@ -31,8 +29,6 @@ class BotController(
             btnToggleBot.text = "INICIAR BOT"
             btnToggleBot.setBackgroundColor(Color.parseColor("#00E676"))
             tvLog.append("\n[Bot] Servicio detenido por el usuario.")
-            
-            // Notificación nativa interna
             notificationHelper.showNotification("InDrive Bot", "El servicio del bot ha sido detenido.", 102)
         }
         return isRunning

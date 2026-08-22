@@ -16,19 +16,19 @@ class AdminDashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dashboard)
 
-        val localTvStatus = findViewById<TextView>(R.id.tvStatus)
-        val localTvLog = findViewById<TextView>(R.id.tvLog)
-        val localBtnToggleBot = findViewById<Button>(R.id.btnToggleBot)
-        val localBtnCheckUpdate = findViewById<ImageView>(R.id.btnCheckUpdate)
+        val tvStatus = findViewById<TextView>(R.id.tvStatus)
+        val tvLog = findViewById<TextView>(R.id.tvLog)
+        val btnToggleBot = findViewById<Button>(R.id.btnToggleBot)
+        val btnCheckUpdate = findViewById<ImageView>(R.id.btnCheckUpdate)
 
-        updateManager = UpdateManager(this, localTvLog)
-        botController = BotController(this, localTvStatus, localTvLog, localBtnToggleBot)
+        updateManager = UpdateManager(this, tvLog)
+        botController = BotController(this, tvStatus, tvLog, btnToggleBot)
 
-        localBtnToggleBot.setOnClickListener {
+        btnToggleBot.setOnClickListener {
             botController.toggle()
         }
 
-        localBtnCheckUpdate.setOnClickListener {
+        btnCheckUpdate.setOnClickListener {
             updateManager.checkForUpdates()
         }
     }
