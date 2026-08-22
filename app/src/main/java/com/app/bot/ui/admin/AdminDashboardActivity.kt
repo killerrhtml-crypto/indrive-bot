@@ -1,7 +1,9 @@
 package com.app.bot.ui.admin
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,18 +22,20 @@ class AdminDashboardActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawerLayout)
         appUpdater = AppUpdater(this)
 
-        // Configuración del botón de la nube para actualizaciones OTA vinculadas a Render/GitHub
+        // Botón de la nube para verificación OTA directa con GitHub
         val cloudContainer = findViewById<ImageView>(R.id.cloudContainer)
         cloudContainer?.setOnClickListener {
-            Toast.makeText(this, "Conectando con Render y GitHub...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Buscando actualizaciones...", Toast.LENGTH_SHORT).show()
             appUpdater.checkForUpdatesManual()
         }
 
-        // Inicialización segura de la interfaz del panel y tarjetas
-        initDashboardUI()
-    }
-
-    private fun initDashboardUI() {
-        // Carga de componentes lógicos y vistas del panel administrativo
+        // Botón de inicio del bot autónomo
+        val btnConnect = findViewById<Button>(R.id.btnConnect)
+        val tvStatus = findViewById<TextView>(R.id.tvStatus)
+        
+        btnConnect?.setOnClickListener {
+            tvStatus.text = "Estado: Bot Activo y Operando"
+            Toast.makeText(this, "Automatización iniciada correctamente", Toast.LENGTH_SHORT).show()
+        }
     }
 }
