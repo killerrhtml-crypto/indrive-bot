@@ -4,36 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="24dp"
-    android:background="#121212">
+    android:padding="24dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Acceso Pro"
-        android:textColor="#FFFFFF"
-        android:textSize="22sp"
+        android:text="PIN de Administración"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"/>
 
     <EditText
-        android:id="@+id/pinInput"
-        android:layout_width="200dp"
+        android:id="@+id/etPin"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="PIN de 4 dígitos"
+        android:hint="Ingrese PIN (ej. 1234)"
         android:inputType="numberPassword"
-        android:maxLength="4"
-        android:gravity="center"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888"
-        android:background="#1E1E1E"
-        android:padding="12dp"
+        android:maxLength="8"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingresar"
-        android:backgroundTint="#4CAF50"/>
+        android:text="Ingresar"/>
 </LinearLayout>
