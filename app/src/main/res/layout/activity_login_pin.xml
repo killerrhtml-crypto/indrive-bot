@@ -1,59 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F0F14"
-    android:gravity="center"
     android:orientation="vertical"
-    android:padding="32dp">
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#121212">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/admin_login_title"
+        android:text="Acceso Pro"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:letterSpacing="0.1" />
+        android:layout_marginBottom="24dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/pinInput"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/admin_login_subtitle"
-        android:textColor="#8E8E93"
-        android:textSize="14sp" />
+        android:hint="PIN de 4 dígitos"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888"
+        android:background="#1E1E1E"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pinInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:hint="@string/admin_pin_hint"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="#2563EB">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPin"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="6"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:letterSpacing="0.3" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#2563EB"
-        android:text="@string/admin_login_button"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Ingresar"
+        android:backgroundTint="#4CAF50"/>
 </LinearLayout>

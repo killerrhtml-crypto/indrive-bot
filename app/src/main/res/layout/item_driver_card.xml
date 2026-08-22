@@ -1,72 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:orientation="vertical"
+    android:background="#1E1E1E"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/driverName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/driverName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#111111"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/driverEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#555555"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/driverStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#1565C0"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/driverExpiry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#555555" />
-
-        <Button
-            android:id="@+id/btnLicenseDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/driver_set_expiry" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnAccept"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/driver_accept" />
-
-            <Button
-                android:id="@+id/btnReject"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/driver_reject" />
-        </LinearLayout>
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+</LinearLayout>
