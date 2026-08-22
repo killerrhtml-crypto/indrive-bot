@@ -21,9 +21,9 @@ class AdminDashboardActivity : AppCompatActivity() {
         val btnToggleBot = findViewById<Button>(R.id.btnToggleBot)
         val btnCheckUpdate = findViewById<ImageView>(R.id.btnCheckUpdate)
 
-        // Inicializamos los módulos divididos
+        // Inicializamos los módulos divididos pasando el contexto adecuado
         updateManager = UpdateManager(this, tvLog)
-        botController = BotController(tvStatus, tvLog, btnToggleBot)
+        botController = BotController(this, tvStatus, tvLog, btnToggleBot)
 
         // Asignamos eventos de UI
         btnToggleBot.setOnClickListener {
