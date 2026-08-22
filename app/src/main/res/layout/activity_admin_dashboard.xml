@@ -24,5 +24,18 @@
         android:id="@+id/btnStartBot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Iniciar Bot Pro"/>
+        android:text="Iniciar Bot Pro"
+        android:layout_marginBottom="24dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btnCheckUpdates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buscar Actualizaciones"/>
 </LinearLayout>
