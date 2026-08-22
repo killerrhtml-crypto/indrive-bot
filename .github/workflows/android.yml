@@ -27,17 +27,29 @@ jobs:
     - name: Compilar el APK (Debug)
       run: ./gradlew assembleDebug
 
-    - name: Actualizar etiqueta "latest"
+    - name: Limpiar Release y Tag anterior en GitHub
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release delete latest -y || true
+        git push origin --delete latest || true
+        git tag -d latest || true
+
+    - name: Crear nueva etiqueta y Publicar en Releases
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git tag -f latest
-        git push -f origin latest
+        git tag latest
+        git push origin latest
 
-    - name: Publicar APK en Releases
+    - name: Subir APK al Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: latest
-        name: "Actualización King System Pro"
-        body: "Versión generada automáticamente."
+        name: "King System Pro - Operador Activo"
+        body: "Actualización automática generada desde el panel de control multiusuario."
         files: app/build/outputs/apk/debug/app-debug.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
