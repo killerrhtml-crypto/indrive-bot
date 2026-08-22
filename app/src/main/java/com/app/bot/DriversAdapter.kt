@@ -7,30 +7,31 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class Driver(val name: String, val email: String, val status: String, val expiry: String)
-
 class DriversAdapter(
     private val drivers: List<Driver>,
     private val onActionClick: (Driver, String) -> Unit
 ) : RecyclerView.Adapter<DriversAdapter.DriverViewHolder>() {
 
     class DriverViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val driverName: TextView = view.findViewById(android.R.id.text1)
-        val driverEmail: TextView = view.findViewById(android.R.id.text2)
-        val btnAccept: Button = view.findViewById(R.id.btnAccept)
-        val btnReject: Button = view.findViewById(R.id.btnReject)
+        val tvName: TextView = view.findViewById(R.id.tvDriverName)
+        val tvDetails: TextView = view.findViewById(R.id.tvDriverDetails)
+        val btnAction: Button = view.findViewById(R.id.btnDriverAction)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DriverViewHolder {
-        // Usamos un layout nativo simple para el listado del operador
-        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_2, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_driver, parent, false)
         return DriverViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: DriverViewHolder, position: Int) {
         val driver = drivers[position]
-        holder.driverName.text = driver.name
-        holder.driverEmail.text = "${driver.email} | Estado: ${driver.status}"
+        holder.tvName.text = driver.name
+        holder.tvDetails.text = "${driver.email} | Licencia: ${driver.expiry}"
+        holder.btnAction.text = driver.status
+
+        holder.btnAction.setOnClickListener {
+            onActionClick(driver, driver.status)
+        }
     }
 
     override fun getItemCount() = drivers.size
