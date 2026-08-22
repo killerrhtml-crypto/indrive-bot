@@ -4,8 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bot.R
@@ -23,40 +28,50 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         updater = AppUpdater(this)
 
-        // Verificación silenciosa al entrar al panel
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+        val btnMenu = findViewById<ImageButton>(R.id.btnMenu)
+        val cloudContainer = findViewById<FrameLayout>(R.id.cloudContainer)
+        val ivCloudStatus = findViewById<ImageView>(R.id.ivCloudStatus)
+        val btnAccessibility = findViewById<Button>(R.id.btnAccessibilityAction)
+        val recyclerRequests = findViewById<RecyclerView>(R.id.recyclerRequests)
+
+        // Abrir menú lateral estilo Sandys al pulsar el botón izquierdo
+        btnMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // Verificación de actualizaciones desde el contenedor nube superior
         updater.checkForUpdates(CURRENT_VERSION_CODE) { apkUrl ->
-            Toast.makeText(this, "Nueva versión detectada. Iniciando instalación local...", Toast.LENGTH_LONG).show()
-            updater.downloadAndInstall(apkUrl)
+            ivCloudStatus.setColorFilter(0xFFFF5252.toInt()) // Rojo si hay update
+            Toast.makeText(this, "¡Nueva actualización disponible en la nube!", Toast.LENGTH_LONG).show()
+            
+            cloudContainer.setOnClickListener {
+                Toast.makeText(this, "Descargando actualización...", Toast.LENGTH_SHORT).show()
+                updater.downloadAndInstall(apkUrl)
+            }
         }
 
-        setupUI()
-    }
-
-    private fun setupUI() {
-        val btnAccessibility = findViewById<Button>(R.id.btnAccessibility)
-        val btnCheckUpdates = findViewById<Button>(R.id.btnCheckUpdates)
-        val recyclerDrivers = findViewById<RecyclerView>(R.id.recyclerDrivers)
-
-        btnAccessibility?.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-        }
-
-        btnCheckUpdates?.setOnClickListener {
-            Toast.makeText(this, "Verificando actualizaciones...", Toast.LENGTH_SHORT).show()
+        cloudContainer.setOnClickListener {
+            Toast.makeText(this, "El sistema está actualizado (Al día)", Toast.LENGTH_SHORT).show()
             updater.checkForUpdates(CURRENT_VERSION_CODE) { apkUrl ->
                 updater.downloadAndInstall(apkUrl)
             }
         }
 
-        // Lista modular de conductores bajo supervisión
-        val sampleDrivers = listOf(
-            Driver("Carlos Mendoza", "carlos@driver.com", "Activo", "30/09/2026"),
-            Driver("Ana Rodríguez", "ana@driver.com", "Pendiente", "15/09/2026")
+        btnAccessibility.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        }
+
+        // Tabla inferior de solicitudes de servicios y licencias
+        val sampleRequests = listOf(
+            Driver("Carlos Mendoza", "carlos@driver.com", "Solicita Licencia", "Pendiente"),
+            Driver("Ana Rodríguez", "ana@driver.com", "Servicio Activo", "Aprobado"),
+            Driver("José Pérez", "jose@driver.com", "Renovación", "Pendiente")
         )
 
-        recyclerDrivers?.layoutManager = LinearLayoutManager(this)
-        recyclerDrivers?.adapter = DriversAdapter(sampleDrivers) { driver, _ ->
-            Toast.makeText(this, "Administrando licencia de: ${driver.name}", Toast.LENGTH_SHORT).show()
+        recyclerRequests.layoutManager = LinearLayoutManager(this)
+        recyclerRequests.adapter = DriversAdapter(sampleRequests) { driver, _ ->
+            Toast.makeText(this, "Gestionando solicitud de: ${driver.name}", Toast.LENGTH_SHORT).show()
         }
     }
 }
