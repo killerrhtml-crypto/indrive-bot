@@ -33,5 +33,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+    <activity android:name=".SettingsActivity" android:theme="@style/Theme.AppCompat.DayNight" />
     </application>
 </manifest>
