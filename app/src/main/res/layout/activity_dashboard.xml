@@ -3,49 +3,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#121212"
+    android:background="#090E17"
     android:padding="20dp">
 
+    <!-- Header Elegante -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Dashboard Principal"
+            android:text="Panel de Control"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/btnOpenUpdateModal"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@android:drawable/ic_menu_upload"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Actualizaciones" />
+            android:tint="#38BDF8"
+            android:contentDescription="Actualizaciones OTA" />
     </LinearLayout>
 
+    <!-- Tarjeta de Estado del Motor -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#1A1A1A"
-        android:padding="18dp"
+        android:background="#1E293B"
+        android:padding="20dp"
         android:layout_marginBottom="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ESTADO DEL MOTOR"
-            android:textColor="#888888"
+            android:text="ESTADO DEL NÚCLEO"
+            android:textColor="#64748B"
             android:textSize="11sp"
             android:textStyle="bold"
+            android:letterSpacing="0.1"
             android:layout_marginBottom="6dp" />
 
         <TextView
@@ -53,32 +57,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Inactivo"
-            android:textColor="#00E676"
-            android:textSize="16sp"
+            android:textColor="#38BDF8"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- Consola de Logs Estilizada -->
     <TextView
         android:id="@+id/tvLog"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#161616"
-        android:textColor="#00E676"
+        android:background="#0F172A"
+        android:textColor="#38BDF8"
         android:textSize="12sp"
         android:fontFamily="monospace"
-        android:padding="10dp"
-        android:text="[Sistema] Módulo seguro cargado.\n[Sistema] Esperando activación...\n"
+        android:padding="14dp"
+        android:text="[Sistema] Entorno seguro cargado.\n[Sistema] Esperando activación...\n"
         android:scrollbars="vertical"
         android:layout_marginBottom="20dp" />
 
+    <!-- Botón Principal -->
     <Button
         android:id="@+id/btnToggleBot"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:text="INICIAR BOT"
-        android:textColor="#FFFFFF"
+        android:layout_height="54dp"
+        android:text="INICIAR NÚCLEO"
+        android:textColor="#090E17"
         android:textStyle="bold"
-        android:backgroundTint="#00E676" />
+        android:backgroundTint="#38BDF8" />
 
 </LinearLayout>

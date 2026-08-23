@@ -4,34 +4,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#121212"
+    android:background="#090E17"
     android:padding="32dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ACCESO RESTRINGIDO"
+        android:text="SEGURIDAD BIOMÉTRICA / PIN"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:letterSpacing="0.05"
         android:layout_marginBottom="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ingrese PIN numérico"
-        android:textColor="#AAAAAA"
+        android:text="Ingrese su clave de acceso"
+        android:textColor="#94A3B8"
         android:textSize="14sp"
         android:layout_marginBottom="32dp" />
 
     <EditText
         android:id="@+id/etPin"
-        android:layout_width="220dp"
-        android:layout_height="54dp"
-        android:background="#1E1E1E"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:background="#1E293B"
         android:textColor="#FFFFFF"
-        android:textColorHint="#555555"
-        android:textSize="22sp"
+        android:textColorHint="#475569"
+        android:textSize="24sp"
         android:gravity="center"
         android:inputType="numberPassword"
         android:hint="••••"
@@ -39,11 +40,11 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:text="INGRESAR"
-        android:textColor="#FFFFFF"
+        android:layout_width="240dp"
+        android:layout_height="52dp"
+        android:text="ACCEDER"
+        android:textColor="#090E17"
         android:textStyle="bold"
-        android:backgroundTint="#00E676" />
+        android:backgroundTint="#38BDF8" />
 
 </LinearLayout>
