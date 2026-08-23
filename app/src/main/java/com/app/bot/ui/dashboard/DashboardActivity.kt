@@ -26,9 +26,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.net.ssl.HttpsURLConnection
 
 class DashboardActivity : AppCompatActivity() {
@@ -61,10 +58,9 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         btnOpenUpdateModal.setOnClickListener {
-            showUpdateDialog(tvLog)
+            checkVersionAndShowUpdate(tvLog)
         }
 
-        // Receptor para cuando finalice la descarga del APK y lanzar instalación automática limpia
         val onComplete = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
@@ -80,8 +76,8 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun showUpdateDialog(tvLog: TextView) {
-        Toast.makeText(this, "Verificando versiones en la nube...", Toast.LENGTH_SHORT).show()
+    private fun checkVersionAndShowUpdate(tvLog: TextView) {
+        Toast.makeText(this, "Verificando actualizaciones en la nube...", Toast.LENGTH_SHORT).show()
 
         Thread {
             try {
@@ -98,36 +94,60 @@ class DashboardActivity : AppCompatActivity() {
                     }
                     reader.close()
 
-                    val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+                    val jsonStr = response.toString()
+                    
+                    // Extracción simple de versionCode y versionName del JSON sin librerías pesadas
+                    val remoteVersionCode = extractJsonInt(jsonStr, "versionCode")
+                    val remoteVersionName = extractJsonString(jsonStr, "versionName")
+
+                    // Obtener la versión instalada actualmente en el dispositivo
+                    val pInfo = packageManager.getPackageInfo(packageName, 0)
+                    val localVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        pInfo.longVersionCode.toInt()
+                    } else {
+                        @Suppress("DEPRECATION")
+                        pInfo.versionCode
+                    }
 
                     Handler(Looper.getMainLooper()).post {
-                        val dialogView = layoutInflater.inflate(R.layout.dialog_update_progress, null)
-                        val tvDetails = dialogView.findViewById<TextView>(R.id.tvUpdateDetails)
-                        val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBarUpdate)
-                        val tvProgressText = dialogView.findViewById<TextView>(R.id.tvProgressText)
-
-                        tvDetails.text = "Nueva actualización disponible\n• Verificada: $currentDate\n• Instalación In-App Directa"
-
-                        val dialog = AlertDialog.Builder(this)
-                            .setTitle("Gestión de Actualización OTA")
-                            .setView(dialogView)
-                            .setPositiveButton("Descargar Ahora") { _, _ ->
-                                tvLog.append("\n[OTA] Descargando actualización...")
-                                downloadAndTrackApk(progressBar, tvProgressText, tvLog)
-                            }
-                            .setNegativeButton("Cancelar", null)
-                            .create()
-                        dialog.show()
+                        if (remoteVersionCode > localVersionCode) {
+                            // Hay una versión más nueva disponible
+                            showUpdateDialog(remoteVersionName, tvLog)
+                        } else {
+                            // Ya tienes la última versión o superior
+                            Toast.makeText(this, "Ya tienes la última versión instalada ($localVersionCode)", Toast.LENGTH_LONG).show()
+                            tvLog.append("\n[OTA] Sistema al día. Versión actual: $localVersionCode")
+                        }
                     }
                 } else {
                     throw Exception()
                 }
             } catch (e: Exception) {
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this, "No se pudo conectar al servidor de actualizaciones", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error al verificar versión con el servidor", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()
+    }
+
+    private fun showUpdateDialog(newVersion: String, tvLog: TextView) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_update_progress, null)
+        val tvDetails = dialogView.findViewById<TextView>(R.id.tvUpdateDetails)
+        val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBarUpdate)
+        val tvProgressText = dialogView.findViewById<TextView>(R.id.tvProgressText)
+
+        tvDetails.text = "¡Nueva versión disponible ($newVersion)!\n• Se detectaron mejoras en el núcleo.\n• Instalación directa In-App."
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Actualización OTA Disponible")
+            .setView(dialogView)
+            .setPositiveButton("Actualizar Ahora") { _, _ ->
+                tvLog.append("\n[OTA] Descargando versión $newVersion...")
+                downloadAndTrackApk(progressBar, tvProgressText, tvLog)
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+        dialog.show()
     }
 
     private fun downloadAndTrackApk(progressBar: ProgressBar, tvProgressText: TextView, tvLog: TextView) {
@@ -147,7 +167,6 @@ class DashboardActivity : AppCompatActivity() {
             val manager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             downloadId = manager.enqueue(request)
 
-            // Hilo para seguir el porcentaje de descarga en tiempo real dentro del diálogo
             Thread {
                 var downloading = true
                 while (downloading) {
@@ -200,6 +219,27 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(this, "Error al instalar paquete: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // Funciones auxiliares para parsear el JSON de forma nativa sin librerías externas
+    private fun extractJsonInt(json: String, key: String): Int {
+        try {
+            val regex = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
+            val match = regex.find(json)
+            return match?.groups?.get(1)?.value?.toInt() ?: 1
+        } catch (e: Exception) {
+            return 1
+        }
+    }
+
+    private fun extractJsonString(json: String, key: String): String {
+        try {
+            val regex = "\"$key\"\\s*:\\s*\"([^\"]+)\"".toRegex()
+            val match = regex.find(json)
+            return match?.groups?.get(1)?.value ?: "1.0.0"
+        } catch (e: Exception) {
+            return "1.0.0"
         }
     }
 }
