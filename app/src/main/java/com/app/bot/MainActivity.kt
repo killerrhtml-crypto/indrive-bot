@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadDashboardView() {
         try {
-            setContentView(R.layout.activity_dashboard)
+            setContentView(R.layout.activity_main)
             Toast.makeText(this, "King System v$CURRENT_VERSION_NAME Operativo", Toast.LENGTH_SHORT).show()
 
             val btnToggleBot = findViewById<Button>(R.id.btnToggleBot)
