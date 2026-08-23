@@ -1,75 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#090D16"
     android:padding="16dp">
 
-    <!-- Cabecera Limpia y Estable -->
-    <LinearLayout
+    <!-- Cabecera Material Estilo Tarjeta -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="#131C31"
-        android:padding="14dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#131C31"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#1E293B">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="14dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="King System Core"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sistema Activo • v1.0.3"
-                android:textColor="#38BDF8"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="King System Core"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sistema Activo • v1.0.4"
+                    android:textColor="#38BDF8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnCheckBuildStatus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_menu_manage"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Build" />
+
+            <ImageView
+                android:id="@+id/btnOpenUpdateModal"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_menu_upload"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Actualizar" />
+
+            <ImageView
+                android:id="@+id/btnOpenCommits"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_menu_agenda"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Historial" />
+
+            <ImageView
+                android:id="@+id/btnOpenNotifications"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_dialog_email"
+                android:contentDescription="Notificaciones" />
         </LinearLayout>
-
-        <!-- Botones de Control Superior -->
-        <ImageView
-            android:id="@+id/btnCheckBuildStatus"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@android:drawable/ic_menu_manage"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Build" />
-
-        <ImageView
-            android:id="@+id/btnOpenUpdateModal"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@android:drawable/ic_menu_upload"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Actualizar" />
-
-        <ImageView
-            android:id="@+id/btnOpenCommits"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@android:drawable/ic_menu_agenda"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Historial" />
-
-        <ImageView
-            android:id="@+id/btnOpenNotifications"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@android:drawable/ic_dialog_email"
-            android:contentDescription="Notificaciones" />
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,7 +89,7 @@
         android:textStyle="bold"
         android:layout_marginBottom="10dp" />
 
-    <!-- Lista Desplazable -->
+    <!-- Lista Desplazable con Tarjetas Material -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -92,141 +101,163 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Tarjeta 1 -->
-            <LinearLayout
+            <!-- Tarjeta 1: Carlos Mendoza -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#131C31"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#131C31"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#1E293B">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="4dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Carlos Mendoza"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Carlos Mendoza"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PENDING"
+                            android:textColor="#F59E0B"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:background="#292011"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="PENDING"
-                        android:textColor="#F59E0B"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:background="#292011"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="3dp" />
+                        android:text="carlos.m@drivernet.io"
+                        android:textColor="#94A3B8"
+                        android:textSize="13sp"
+                        android:layout_marginBottom="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:text="Aceptar"
+                            android:textColor="#FFFFFF"
+                            app:backgroundTint="#059669"
+                            app:cornerRadius="8dp"
+                            android:layout_marginEnd="6dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:text="Rechazar"
+                            android:textColor="#FFFFFF"
+                            app:backgroundTint="#DC2626"
+                            app:cornerRadius="8dp"
+                            android:layout_marginStart="6dp" />
+                    </LinearLayout>
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="carlos.m@drivernet.io"
-                    android:textColor="#94A3B8"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="14dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="42dp"
-                        android:layout_weight="1"
-                        android:text="Aceptar"
-                        android:textColor="#FFFFFF"
-                        android:backgroundTint="#059669"
-                        android:layout_marginEnd="6dp" />
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="42dp"
-                        android:layout_weight="1"
-                        android:text="Rechazar"
-                        android:textColor="#FFFFFF"
-                        android:backgroundTint="#DC2626"
-                        android:layout_marginStart="6dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Tarjeta 2 -->
-            <LinearLayout
+            <!-- Tarjeta 2: Ana Torres -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#131C31"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#131C31"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#1E293B">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="4dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Ana Torres"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Ana Torres"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ACTIVE"
+                            android:textColor="#10B981"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:background="#062318"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ACTIVE"
-                        android:textColor="#10B981"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:background="#062318"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="3dp" />
+                        android:text="ana.torres@drivernet.io"
+                        android:textColor="#94A3B8"
+                        android:textSize="13sp"
+                        android:layout_marginBottom="14dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:text="Ver Detalles y Telemetría"
+                        android:textColor="#FFFFFF"
+                        app:backgroundTint="#0284C7"
+                        app:cornerRadius="8dp" />
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ana.torres@drivernet.io"
-                    android:textColor="#94A3B8"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="14dp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:text="Ver Detalles y Telemetría"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="#0284C7" />
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón Principal Inferior -->
-    <Button
+    <!-- Botón Principal Inferior Material -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnToggleBot"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:text="INICIAR NÚCLEO BOT"
         android:textColor="#090D16"
         android:textStyle="bold"
-        android:backgroundTint="#38BDF8"
+        app:backgroundTint="#38BDF8"
+        app:cornerRadius="10dp"
         android:layout_marginTop="10dp" />
 
 </LinearLayout>

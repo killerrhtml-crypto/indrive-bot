@@ -1,6 +1,6 @@
 {
-  "versionCode": 3,
-  "versionName": "1.0.2",
-  "releaseNotes": "Unificación de MainActivity y Dashboard para máxima estabilidad.",
+  "versionCode": 5,
+  "versionName": "1.0.4",
+  "releaseNotes": "Integración de Material Components con tarjetas flotantes y diseño prémium.",
   "apkUrl": "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
 }
