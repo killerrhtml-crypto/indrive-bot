@@ -1,5 +1,4 @@
 package com.app.bot
-import java.io.File
 
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -22,8 +21,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import javax.net.ssl.HttpsURLConnection
@@ -43,14 +42,6 @@ class MainActivity : AppCompatActivity() {
             val btnOpenUpdateModal = findViewById<ImageView>(R.id.btnOpenUpdateModal)
             val btnOpenCommits = findViewById<ImageView>(R.id.btnOpenCommits)
             val btnOpenNotifications = findViewById<ImageView>(R.id.btnOpenNotifications)
-            val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
-
-            swipeRefreshLayout?.setOnRefreshListener {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    swipeRefreshLayout.isRefreshing = false
-                    Toast.makeText(this, "Datos sincronizados correctamente", Toast.LENGTH_SHORT).show()
-                }, 1200)
-            }
 
             btnToggleBot?.setOnClickListener {
                 isRunning = !isRunning
@@ -188,7 +179,7 @@ class MainActivity : AppCompatActivity() {
         tvDetails.text = "¡Nueva versión disponible ($newVersion)!\n• Actualización limpia integrada."
 
         AlertDialog.Builder(this)
-            .setTitle("Actualización OTA")
+            .setTitle("King System Actualización")
             .setView(dialogView)
             .setPositiveButton("Actualizar") { _, _ -> downloadAndTrackApk(progressBar, tvProgressText) }
             .setNegativeButton("Cancelar", null)
@@ -202,7 +193,7 @@ class MainActivity : AppCompatActivity() {
             if (destination.exists()) destination.delete()
 
             val request = DownloadManager.Request(Uri.parse(apkUrl))
-                .setTitle("InDrive Bot Actualización")
+                .setTitle("King System Actualización")
                 .setDescription("Descargando APK...")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setDestinationUri(Uri.fromFile(destination))
@@ -267,10 +258,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCommitHistoryDialog() {
         val commits = """
-            • [commit 8f1b20]: SwipeRefresh y logo león tecnológico en cabecera.
-            • [commit 4a2b91]: Tarjetas compactas y colores vivos.
+            • [commit 8f1b20]: King System Rebrand y vistas estables.
+            • [commit 4a2b91]: Interfaz optimizada sin errores de XML.
             • [commit 1f8c32]: Integración de FileProvider para updates.
-            • [commit 7e4d10]: Control estricto de versionCode en JSON.
         """.trimIndent()
 
         AlertDialog.Builder(this)
@@ -283,8 +273,7 @@ class MainActivity : AppCompatActivity() {
     private fun showNotificationsDialog() {
         val notifications = """
             • [10:15 AM] Carlos Mendoza solicitó revisión de licencia.
-            • [09:42 AM] Sistema actualizado a versión v1.0.2 exitosamente.
-            • [Ayer] Servidor de retransmisión de ofertas conectado.
+            • [09:42 AM] King System actualizado a versión v1.0.3 exitosamente.
         """.trimIndent()
 
         AlertDialog.Builder(this)
