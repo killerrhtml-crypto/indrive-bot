@@ -19,7 +19,7 @@
         android:id="@+id/progressBarUpdate"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="8D-8dp"
+        android:layout_height="8dp"
         android:max="100"
         android:progressTint="#38BDF8"
         android:layout_marginBottom="12dp" />
