@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var isRunning = false
     private var downloadId: Long = -1L
     private val CHANNEL_ID = "king_system_notifications"
-    private val CURRENT_VERSION_NAME = "1.0.6" // Firma de versión actual visible
+    private val CURRENT_VERSION_NAME = "1.0.6"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,10 +76,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadDashboardView() {
         try {
             setContentView(R.layout.activity_dashboard)
-
-            // Actualizar la firma de versión en la cabecera visual de la app
-            val tvSubTitle = findViewById<TextView>(android.R.id.text1) // O busramos por id si se requiere
-            // Como usamos layout personalizado, actualizamos mediante Toast o búsqueda si existe ID, o lo dejamos claro:
             Toast.makeText(this, "King System v$CURRENT_VERSION_NAME Operativo", Toast.LENGTH_SHORT).show()
 
             val btnToggleBot = findViewById<Button>(R.id.btnToggleBot)
@@ -180,7 +176,6 @@ class MainActivity : AppCompatActivity() {
                     reader.close()
 
                     val jsonStr = response.toString()
-                    
                     Handler(Looper.getMainLooper()).post {
                         AlertDialog.Builder(this)
                             .setTitle("Estado del Build [Firmado v$CURRENT_VERSION_NAME]")
@@ -244,7 +239,7 @@ class MainActivity : AppCompatActivity() {
         val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBarUpdate)
         val tvProgressText = dialogView.findViewById<TextView>(R.id.tvProgressText)
 
-        tvDetails.text = "Firmada Actual: v$CURRENT_VERSION_NAME\nServidor Remoto: v$newVersion (Code: $codeDisplay(versionCode))\n• Actualización lista para descargar."
+        tvDetails.text = "Firmada Actual: v$CURRENT_VERSION_NAME\nServidor Remoto: v$newVersion (Code: $versionCode)\n• Actualización lista para descargar."
 
         AlertDialog.Builder(this)
             .setTitle("King System Actualización [v$newVersion]")
@@ -253,8 +248,6 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
             .show()
     }
-
-    private fun codeDisplay(code: Int): Int = code
 
     private fun downloadAndTrackApk(progressBar: ProgressBar, tvProgressText: TextView) {
         try {
@@ -329,7 +322,7 @@ class MainActivity : AppCompatActivity() {
     private fun showCommitHistoryDialog() {
         AlertDialog.Builder(this)
             .setTitle("Historial Firmado [v$CURRENT_VERSION_NAME]")
-            .setMessage("• v$CURRENT_VERSION_NAME: Depuración de lectura JSON remota, firmas de versión visibles y diálogos reactivos con red de datos.")
+            .setMessage("• v$CURRENT_VERSION_NAME: Corrección de compilación y firmas de versión visibles.")
             .setPositiveButton("Cerrar", null)
             .show()
     }
