@@ -1,6 +1,6 @@
 {
-  "versionCode": 11,
-  "versionName": "1.0.9",
-  "releaseNotes": "Integración definitiva de StatisticsView, diseño XML limpio y controles de red de datos.",
+  "versionCode": 12,
+  "versionName": "1.1.0",
+  "releaseNotes": "Versión empresarial con diseño MaterialCardView, icono de león superior y telemetría avanzada.",
   "apkUrl": "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
 }
