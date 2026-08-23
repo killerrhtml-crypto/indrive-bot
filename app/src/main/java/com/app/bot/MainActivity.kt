@@ -1,4 +1,5 @@
 package com.app.bot
+import java.io.File
 
 import android.app.AlertDialog
 import android.app.DownloadManager
