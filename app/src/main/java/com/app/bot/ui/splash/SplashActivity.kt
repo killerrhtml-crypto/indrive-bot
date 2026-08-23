@@ -13,7 +13,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Espera exacta de 5 segundos antes de pasar al login con PIN
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, LoginPinActivity::class.java))
             finish()

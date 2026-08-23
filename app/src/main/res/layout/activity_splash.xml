@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sistema de Automatización Inteligente"
+        android:text="Bienvenido - Sistema Inteligente"
         android:textColor="#AAAAAA"
         android:textSize="14sp"
         android:layout_marginBottom="48dp" />
@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cargando entorno seguro..."
+        android:text="Cargando entorno..."
         android:textColor="#666666"
         android:textSize="12sp"
         android:layout_marginTop="24dp" />

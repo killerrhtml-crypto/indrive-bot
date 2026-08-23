@@ -6,7 +6,6 @@
     android:background="#121212"
     android:padding="20dp">
 
-    <!-- Header con título y botón de actualización flotante -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +31,6 @@
             android:contentDescription="Actualizaciones" />
     </LinearLayout>
 
-    <!-- Estado del Bot -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +58,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Consola de Logs -->
     <TextView
         android:id="@+id/tvLog"
         android:layout_width="match_parent"
@@ -71,11 +68,10 @@
         android:textSize="12sp"
         android:fontFamily="monospace"
         android:padding="10dp"
-        android:text="[Sistema] Módulo seguro cargado.\n[Sistema] Esperando activación del usuario...\n"
+        android:text="[Sistema] Módulo seguro cargado.\n[Sistema] Esperando activación...\n"
         android:scrollbars="vertical"
         android:layout_marginBottom="20dp" />
 
-    <!-- Botón de Operación -->
     <Button
         android:id="@+id/btnToggleBot"
         android:layout_width="match_parent"
