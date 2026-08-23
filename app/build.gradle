@@ -53,3 +53,29 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 }
+
+// --- INYECCIÓN NÚCLEO KING SYSTEM ---
+android {
+    signingConfigs {
+        king_release {
+            storeFile file("kingsystem.jks")
+            storePassword "king2026"
+            keyAlias "kingcore"
+            keyPassword "king2026"
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.king_release
+        }
+        debug {
+            // Forzamos que GitHub Actions firme el APK de prueba con tu Keystore
+            signingConfig signingConfigs.king_release
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+}
