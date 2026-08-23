@@ -38,25 +38,24 @@ class MainActivity : AppCompatActivity() {
     private var isRunning = false
     private var downloadId: Long = -1L
     private val CHANNEL_ID = "king_system_notifications"
+    private val CURRENT_VERSION_NAME = "1.0.6" // Firma de versión actual visible
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
-        
-        // Mostrar pantalla de seguridad PIN antes de dejar entrar al Dashboard
         showSecurityPinDialog()
     }
 
     private fun showSecurityPinDialog() {
         val input = EditText(this).apply {
-            hint = "Ingrese PIN de seguridad (Ej: 1234)"
+            hint = "PIN de seguridad (Pruebe: 1234)"
             inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
             setTextColor(Color.WHITE)
             setHintTextColor(Color.GRAY)
         }
 
         AlertDialog.Builder(this)
-            .setTitle("King System - Seguridad")
+            .setTitle("King System [$CURRENT_VERSION_NAME]")
             .setMessage("Acceso protegido al núcleo del bot:")
             .setView(input)
             .setCancelable(false)
@@ -78,6 +77,11 @@ class MainActivity : AppCompatActivity() {
         try {
             setContentView(R.layout.activity_dashboard)
 
+            // Actualizar la firma de versión en la cabecera visual de la app
+            val tvSubTitle = findViewById<TextView>(android.R.id.text1) // O busramos por id si se requiere
+            // Como usamos layout personalizado, actualizamos mediante Toast o búsqueda si existe ID, o lo dejamos claro:
+            Toast.makeText(this, "King System v$CURRENT_VERSION_NAME Operativo", Toast.LENGTH_SHORT).show()
+
             val btnToggleBot = findViewById<Button>(R.id.btnToggleBot)
             val btnCheckBuildStatus = findViewById<ImageView>(R.id.btnCheckBuildStatus)
             val btnOpenUpdateModal = findViewById<ImageView>(R.id.btnOpenUpdateModal)
@@ -89,8 +93,8 @@ class MainActivity : AppCompatActivity() {
                 if (isRunning) {
                     btnToggleBot.text = "DETENER NÚCLEO BOT"
                     btnToggleBot.setBackgroundColor(Color.parseColor("#EF4444"))
-                    Toast.makeText(this, "Núcleo activado correctamente", Toast.LENGTH_SHORT).show()
-                    sendLocalNotification("King System", "Núcleo del bot activado y operando en segundo plano.")
+                    Toast.makeText(this, "Núcleo activado", Toast.LENGTH_SHORT).show()
+                    sendLocalNotification("King System [$CURRENT_VERSION_NAME]", "Núcleo activado y operando con red de datos.")
                 } else {
                     btnToggleBot.text = "INICIAR NÚCLEO BOT"
                     btnToggleBot.setBackgroundColor(Color.parseColor("#38BDF8"))
@@ -125,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "King System Alertas"
-            val descriptionText = "Canal para notificaciones de actualizaciones y estado"
+            val descriptionText = "Canal para notificaciones de actualizaciones"
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
@@ -164,7 +168,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val url = java.net.URL("https://raw.githubusercontent.com/killerrhtml-crypto/indrive-bot/main/build_status.json")
                 val connection = url.openConnection() as HttpsURLConnection
-                connection.connectTimeout = 4000
+                connection.connectTimeout = 5000
 
                 if (connection.responseCode == HttpURLConnection.HTTP_OK) {
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
@@ -176,32 +180,34 @@ class MainActivity : AppCompatActivity() {
                     reader.close()
 
                     val jsonStr = response.toString()
-                    val status = extractJsonString(jsonStr, "status")
-                    val message = extractJsonString(jsonStr, "message")
-
+                    
                     Handler(Looper.getMainLooper()).post {
                         AlertDialog.Builder(this)
-                            .setTitle("Estado: $status")
-                            .setMessage(message)
+                            .setTitle("Estado del Build [Firmado v$CURRENT_VERSION_NAME]")
+                            .setMessage("Datos del servidor:\n$jsonStr")
                             .setPositiveButton("Cerrar", null)
                             .show()
+                    }
+                } else {
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(this, "Servidor respondió con código: ${connection.responseCode}", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this, "Sin conexión al servidor", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error de red: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
         }.start()
     }
 
     private fun checkVersionAndShowUpdate() {
-        Toast.makeText(this, "Verificando actualizaciones...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Verificando actualizaciones OTA...", Toast.LENGTH_SHORT).show()
         Thread {
             try {
                 val url = java.net.URL("https://raw.githubusercontent.com/killerrhtml-crypto/indrive-bot/main/update_info.json")
                 val connection = url.openConnection() as HttpsURLConnection
-                connection.connectTimeout = 4000
+                connection.connectTimeout = 5000
 
                 if (connection.responseCode == HttpURLConnection.HTTP_OK) {
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
@@ -213,59 +219,52 @@ class MainActivity : AppCompatActivity() {
                     reader.close()
 
                     val jsonStr = response.toString()
-                    val remoteVersionCode = extractJsonInt(jsonStr, "versionCode")
                     val remoteVersionName = extractJsonString(jsonStr, "versionName")
-
-                    val pInfo = packageManager.getPackageInfo(packageName, 0)
-                    val localVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        pInfo.longVersionCode.toInt()
-                    } else {
-                        @Suppress("DEPRECATION")
-                        pInfo.versionCode
-                    }
+                    val remoteVersionCode = extractJsonInt(jsonStr, "versionCode")
 
                     Handler(Looper.getMainLooper()).post {
-                        if (remoteVersionCode > localVersionCode) {
-                            sendLocalNotification("Actualización Disponible", "Nueva versión $remoteVersionName lista para descargar.")
-                            showUpdateDialog(remoteVersionName)
+                        if (remoteVersionName.isNotEmpty()) {
+                            showUpdateDialog(remoteVersionName, remoteVersionCode)
                         } else {
-                            Toast.makeText(this, "Ya tienes la última versión instalada", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "No se pudo leer la versión del servidor", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
             } catch (e: Exception) {
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error al conectar: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
         }.start()
     }
 
-    private fun showUpdateDialog(newVersion: String) {
+    private fun showUpdateDialog(newVersion: String, versionCode: Int) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_update_progress, null)
         val tvDetails = dialogView.findViewById<TextView>(R.id.tvUpdateDetails)
         val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBarUpdate)
         val tvProgressText = dialogView.findViewById<TextView>(R.id.tvProgressText)
 
-        tvDetails.text = "¡Nueva versión disponible ($newVersion)!\n• Actualización limpia integrada."
+        tvDetails.text = "Firmada Actual: v$CURRENT_VERSION_NAME\nServidor Remoto: v$newVersion (Code: $codeDisplay(versionCode))\n• Actualización lista para descargar."
 
         AlertDialog.Builder(this)
-            .setTitle("King System Actualización")
+            .setTitle("King System Actualización [v$newVersion]")
             .setView(dialogView)
-            .setPositiveButton("Actualizar") { _, _ -> downloadAndTrackApk(progressBar, tvProgressText) }
+            .setPositiveButton("Actualizar Ahora") { _, _ -> downloadAndTrackApk(progressBar, tvProgressText) }
             .setNegativeButton("Cancelar", null)
             .show()
     }
 
+    private fun codeDisplay(code: Int): Int = code
+
     private fun downloadAndTrackApk(progressBar: ProgressBar, tvProgressText: TextView) {
         try {
             val apkUrl = "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
-            val destination = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "indrive_update.apk")
+            val destination = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "king_system_update.apk")
             if (destination.exists()) destination.delete()
 
             val request = DownloadManager.Request(Uri.parse(apkUrl))
-                .setTitle("King System Actualización")
-                .setDescription("Descargando APK...")
+                .setTitle("King System v$CURRENT_VERSION_NAME Update")
+                .setDescription("Descargando APK firmado...")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setDestinationUri(Uri.fromFile(destination))
                 .setAllowedOverMetered(true)
@@ -301,13 +300,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }.start()
         } catch (e: Exception) {
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error de descarga: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun installDownloadedApk() {
         try {
-            val file = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "indrive_update.apk")
+            val file = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "king_system_update.apk")
             if (!file.exists()) return
 
             val uri: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -323,14 +322,14 @@ class MainActivity : AppCompatActivity() {
             }
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al instalar: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error al instalar APK: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun showCommitHistoryDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Historial de Versiones")
-            .setMessage("• v1.0.5: Pantalla de seguridad PIN, notificaciones nativas con sonido y vibración integradas.")
+            .setTitle("Historial Firmado [v$CURRENT_VERSION_NAME]")
+            .setMessage("• v$CURRENT_VERSION_NAME: Depuración de lectura JSON remota, firmas de versión visibles y diálogos reactivos con red de datos.")
             .setPositiveButton("Cerrar", null)
             .show()
     }
@@ -338,9 +337,9 @@ class MainActivity : AppCompatActivity() {
     private fun showNotificationsDialog() {
         AlertDialog.Builder(this)
             .setTitle("Centro de Notificaciones")
-            .setMessage("• [Sistema] Seguridad PIN activa al iniciar.\n• [Actualización] Canal de alertas configurado con sonido y vibración.")
+            .setMessage("• [Sistema] Versión firmada activa: v$CURRENT_VERSION_NAME\n• [Red] Operando con red de datos móviles.")
             .setPositiveButton("Limpiar") { _, _ ->
-                Toast.makeText(this, "Notificaciones marcadas como leídas", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Notificaciones limpiadas", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cerrar", null)
             .show()
@@ -348,15 +347,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun extractJsonInt(json: String, key: String): Int {
         return try {
-            val regex = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
-            regex.find(json)?.groups?.get(1)?.value?.toInt() ?: 1
+            val index = json.indexOf("\"$key\"")
+            if (index == -1) return 1
+            val sub = json.substring(index)
+            val colon = sub.indexOf(":")
+            val comma = sub.indexOfAny(charArrayOf(',', '}'))
+            sub.substring(colon + 1, comma).trim().toInt()
         } catch (e: Exception) { 1 }
     }
 
     private fun extractJsonString(json: String, key: String): String {
         return try {
-            val regex = "\"$key\"\\s*:\\s*\"([^\"]+)\"".toRegex()
-            regex.find(json)?.groups?.get(1)?.value ?: ""
+            val index = json.indexOf("\"$key\"")
+            if (index == -1) return ""
+            val sub = json.substring(index)
+            val firstQuote = sub.indexOf("\"", sub.indexOf(":") + 1)
+            val secondQuote = sub.indexOf("\"", firstQuote + 1)
+            sub.substring(firstQuote + 1, secondQuote)
         } catch (e: Exception) { "" }
     }
 }
