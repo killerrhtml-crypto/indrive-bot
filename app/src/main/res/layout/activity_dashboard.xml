@@ -1,95 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#090D16">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#0F172A"
         android:padding="16dp">
 
-        <!-- Header Principal -->
-        <LinearLayout
+        <!-- Cabecera de Alto Nivel -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#131C31"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1E293B">
 
-            <!-- Logo / Ícono del León Estilo Tech en la esquina izquierda -->
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@android:drawable/ic_menu_compass"
-                android:background="#1E293B"
-                android:padding="6dp"
-                android:tint="#38BDF8"
-                android:layout_marginEnd="10sp"
-                android:contentDescription="Logo León Tech" />
-
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Dashboard de Administración"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="14dp">
 
-            <!-- Botones de Control Superior -->
-            <ImageView
-                android:id="@+id/btnCheckBuildStatus"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@android:drawable/ic_menu_manage"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="#F59E0B"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="Estado Build" />
+                <!-- Ícono León Tech en la esquina izquierda -->
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@android:drawable/ic_menu_compass"
+                    android:background="#1E293B"
+                    android:padding="8dp"
+                    android:tint="#38BDF8"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="Logo León Tech" />
 
-            <ImageView
-                android:id="@+id/btnOpenUpdateModal"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@android:drawable/ic_menu_upload"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="#38BDF8"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="Actualizar" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/btnOpenCommits"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@android:drawable/ic_menu_agenda"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="#A855F7"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="Historial" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="InDrive Bot Core"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/btnOpenNotifications"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@android:drawable/ic_dialog_email"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="#EC4899"
-                android:contentDescription="Notificaciones" />
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sistema Activo • v1.0.1"
+                        android:textColor="#38BDF8"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Herramientas de Control Superior -->
+                <ImageView
+                    android:id="@+id/btnCheckBuildStatus"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_manage"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="#F59E0B"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Build" />
+
+                <ImageView
+                    android:id="@+id/btnOpenUpdateModal"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_upload"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="#38BDF8"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Actualizar" />
+
+                <ImageView
+                    android:id="@+id/btnOpenCommits"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_agenda"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="#A855F7"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Historial" />
+
+                <ImageView
+                    android:id="@+id/btnOpenNotifications"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_dialog_email"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="#EC4899"
+                    android:contentDescription="Notificaciones" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choferes y licencias (Activos)"
-            android:textColor="#94A3B8"
-            android:textSize="14sp"
+            android:text="PANEL DE CHOFERES Y LICENCIAS"
+            android:textColor="#64748B"
+            android:textSize="12sp"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:letterSpacing="0.08"
+            android:layout_marginBottom="10dp" />
 
-        <!-- Tarjetas Compactas -->
+        <!-- Lista Desplazable de Tarjetas Estilizadas -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -102,116 +128,170 @@
                 android:orientation="vertical">
 
                 <!-- Tarjeta 1: Carlos Mendoza -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="#1E293B"
-                    android:padding="16dp"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="#131C31"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#1E293B">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Carlos Mendoza"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="carlos@example.com"
-                        android:textColor="#94A3B8"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Estado: PENDING"
-                        android:textColor="#F59E0B"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="12dp" />
-
-                    <Button
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:text="ACEPTAR LICENCIA"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:backgroundTint="#10B981"
-                        android:layout_marginBottom="6dp" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:text="RECHAZAR"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:backgroundTint="#EF4444" />
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="4dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Carlos Mendoza"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PENDING"
+                                android:textColor="#F59E0B"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:background="#292011"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="carlos.m@drivernet.io"
+                            android:textColor="#94A3B8"
+                            android:textSize="13sp"
+                            android:layout_marginBottom="14dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="0dp"
+                                android:layout_height="42dp"
+                                android:layout_weight="1"
+                                android:text="Aceptar"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="#059669"
+                                app:cornerRadius="8dp"
+                                android:layout_marginEnd="6dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="0dp"
+                                android:layout_height="42dp"
+                                android:layout_weight="1"
+                                android:text="Rechazar"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="#DC2626"
+                                app:cornerRadius="8dp"
+                                android:layout_marginStart="6dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Tarjeta 2: Ana Torres -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="#1E293B"
-                    android:padding="16dp"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="#131C31"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#1E293B">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ana Torres"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ana@example.com"
-                        android:textColor="#94A3B8"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Estado: ACTIVE"
-                        android:textColor="#10B981"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="12dp" />
-
-                    <Button
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:text="VER DETALLES"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:backgroundTint="#38BDF8" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="4dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Ana Torres"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ACTIVE"
+                                android:textColor="#10B981"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:background="#062318"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ana.torres@drivernet.io"
+                            android:textColor="#94A3B8"
+                            android:textSize="13sp"
+                            android:layout_marginBottom="14dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:text="Ver Detalles y Telemetría"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            app:backgroundTint="#0284C7"
+                            app:cornerRadius="8dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
         </ScrollView>
 
-        <!-- Botón Inferior -->
-        <Button
+        <!-- Botón de Control Principal Inferior -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnToggleBot"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="52dp"
             android:text="INICIAR NÚCLEO BOT"
-            android:textColor="#0F172A"
+            android:textColor="#090D16"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:backgroundTint="#38BDF8"
-            android:layout_marginTop="8dp" />
+            app:backgroundTint="#38BDF8"
+            app:cornerRadius="12dp"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
