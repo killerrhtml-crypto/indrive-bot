@@ -12,29 +12,25 @@ class StatisticsView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val paintCircle = Paint().apply {
-        isAntialias = true
+    private val paintCircle = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeWidth = 35f
         color = Color.parseColor("#38BDF8") // Azul cian profesional
     }
 
-    private val paintBackgroundCircle = Paint().apply {
-        isAntialias = true
+    private val paintBackgroundCircle = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeWidth = 35f
         color = Color.parseColor("#334155")
     }
 
-    private val paintText = Paint().apply {
-        isAntialias = true
+    private val paintText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
         textSize = 50f
         textAlign = Paint.Align.CENTER
     }
 
-    private val paintBar = Paint().apply {
-        isAntialias = true
+    private val paintBar = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         color = Color.parseColor("#10B981") // Verde profesional
     }
