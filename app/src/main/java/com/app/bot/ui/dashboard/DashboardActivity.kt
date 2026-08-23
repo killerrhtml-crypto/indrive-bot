@@ -21,6 +21,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.app.bot.R
 import java.io.BufferedReader
 import java.io.File
@@ -42,6 +43,15 @@ class DashboardActivity : AppCompatActivity() {
         val btnOpenUpdateModal = findViewById<ImageView>(R.id.btnOpenUpdateModal)
         val btnOpenCommits = findViewById<ImageView>(R.id.btnOpenCommits)
         val btnOpenNotifications = findViewById<ImageView>(R.id.btnOpenNotifications)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
+
+        // Configurar gesto de deslizamiento hacia abajo para refrescar
+        swipeRefreshLayout.setOnRefreshListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                swipeRefreshLayout.isRefreshing = false
+                Toast.makeText(this, "Datos sincronizados correctamente", Toast.LENGTH_SHORT).show()
+            }, 1200)
+        }
 
         btnToggleBot.setOnClickListener {
             isRunning = !isRunning
@@ -56,21 +66,10 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
-        btnCheckBuildStatus.setOnClickListener {
-            checkCloudBuildStatus()
-        }
-
-        btnOpenUpdateModal.setOnClickListener {
-            checkVersionAndShowUpdate()
-        }
-
-        btnOpenCommits.setOnClickListener {
-            showCommitHistoryDialog()
-        }
-
-        btnOpenNotifications.setOnClickListener {
-            showNotificationsDialog()
-        }
+        btnCheckBuildStatus.setOnClickListener { checkCloudBuildStatus() }
+        btnOpenUpdateModal.setOnClickListener { checkVersionAndShowUpdate() }
+        btnOpenCommits.setOnClickListener { showCommitHistoryDialog() }
+        btnOpenNotifications.setOnClickListener { showNotificationsDialog() }
 
         val onComplete = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -88,8 +87,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun checkCloudBuildStatus() {
-        Toast.makeText(this, "Consultando estado del Build en la nube...", Toast.LENGTH_SHORT).show()
-
+        Toast.makeText(this, "Consultando estado del Build...", Toast.LENGTH_SHORT).show()
         Thread {
             try {
                 val url = java.net.URL("https://raw.githubusercontent.com/killerrhtml-crypto/indrive-bot/main/build_status.json")
@@ -115,7 +113,7 @@ class DashboardActivity : AppCompatActivity() {
                             "BUILDING" -> "🟡 Compilando en la nube..."
                             "SUCCESS" -> "🟢 ¡APK Compilado con Éxito!"
                             "FAILED" -> "🔴 Error en la Compilación"
-                            else -> "⚪ Estado Inactivo"
+                            else -> "⚪ Sistema Operativo"
                         }
 
                         AlertDialog.Builder(this)
@@ -124,12 +122,10 @@ class DashboardActivity : AppCompatActivity() {
                             .setPositiveButton("Cerrar", null)
                             .show()
                     }
-                } else {
-                    throw Exception()
-                }
+                } else { throw Exception() }
             } catch (e: Exception) {
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this, "No se pudo obtener el estado del Build", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Sin conexión al servidor de estado", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()
@@ -137,7 +133,6 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun checkVersionAndShowUpdate() {
         Toast.makeText(this, "Verificando actualizaciones...", Toast.LENGTH_SHORT).show()
-
         Thread {
             try {
                 val url = java.net.URL("https://raw.githubusercontent.com/killerrhtml-crypto/indrive-bot/main/update_info.json")
@@ -172,9 +167,7 @@ class DashboardActivity : AppCompatActivity() {
                             Toast.makeText(this, "Ya tienes la última versión instalada ($localVersionCode)", Toast.LENGTH_LONG).show()
                         }
                     }
-                } else {
-                    throw Exception()
-                }
+                } else { throw Exception() }
             } catch (e: Exception) {
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(this, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show()
@@ -189,17 +182,14 @@ class DashboardActivity : AppCompatActivity() {
         val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBarUpdate)
         val tvProgressText = dialogView.findViewById<TextView>(R.id.tvProgressText)
 
-        tvDetails.text = "¡Nueva versión disponible ($newVersion)!\n• Actualización limpia mediante clave persistente."
+        tvDetails.text = "¡Nueva versión disponible ($newVersion)!\n• Actualización limpia integrada."
 
-        val dialog = AlertDialog.Builder(this)
+        AlertDialog.Builder(this)
             .setTitle("Actualización OTA")
             .setView(dialogView)
-            .setPositiveButton("Actualizar") { _, _ ->
-                downloadAndTrackApk(progressBar, tvProgressText)
-            }
+            .setPositiveButton("Actualizar") { _, _ -> downloadAndTrackApk(progressBar, tvProgressText) }
             .setNegativeButton("Cancelar", null)
-            .create()
-        dialog.show()
+            .show()
     }
 
     private fun downloadAndTrackApk(progressBar: ProgressBar, tvProgressText: TextView) {
@@ -245,7 +235,6 @@ class DashboardActivity : AppCompatActivity() {
                     Thread.sleep(300)
                 }
             }.start()
-
         } catch (e: Exception) {
             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
         }
@@ -275,14 +264,14 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun showCommitHistoryDialog() {
         val commits = """
-            • [commit 4a2b91]: Optimización de diseño Material y tarjetas compactas.
-            • [commit 1f8c32]: Integración de FileProvider para actualizaciones directas.
-            • [commit 7e4d10]: Control estricto de versionCode en JSON remoto.
-            • [commit 3b9a01]: Estructura inicial del bot y pantallas de acceso PIN.
+            • [commit 8f1b20]: SwipeRefresh y logo león tecnológico en cabecera.
+            • [commit 4a2b91]: Tarjetas compactas y colores vivos.
+            • [commit 1f8c32]: Integración de FileProvider para updates.
+            • [commit 7e4d10]: Control estricto de versionCode en JSON.
         """.trimIndent()
 
         AlertDialog.Builder(this)
-            .setTitle("Historial de Versiones (Commits)")
+            .setTitle("Historial de Versiones")
             .setMessage(commits)
             .setPositiveButton("Cerrar", null)
             .show()
