@@ -1,48 +1,49 @@
 package com.app.bot
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var dbHelper: DatabaseHelper
+    private val networkManager = NetworkManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         dbHelper = DatabaseHelper(this)
-
         val btnToggleBot = findViewById<Button>(R.id.btnToggleBot)
         val btnMenuOptions = findViewById<ImageView>(R.id.btnMenuOptions)
         val txtTelemetryInfo = findViewById<TextView>(R.id.txtTelemetryInfo)
-
-        val deviceId = android.provider.Settings.Secure.getString(contentResolver, android.provider.Settings.Secure.ANDROID_ID) ?: "DEVICE_CORE_01"
-        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
         
-        try {
-            dbHelper.insertRecord(deviceId, "Red Móvil Activa", "admin@kingsystem.com", "+18005550199", timestamp)
-        } catch (e: Exception) {
-            // Ignorar duplicados
-        }
+        val deviceId = android.provider.Settings.Secure.getString(contentResolver, android.provider.Settings.Secure.ANDROID_ID) ?: "DEVICE_01"
+        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
-        txtTelemetryInfo.text = "ID Dispositivo: $deviceId\nIP Red Móvil: Conectada (LTE)\nEstado Licencia: Verificada (SQLite)\nÚltimo Registro: $timestamp"
-
+        // UI Feedback en lugar de Toasts
         btnToggleBot.setOnClickListener {
-            Toast.makeText(this, "Núcleo Bot Activado con Red Móvil", Toast.LENGTH_SHORT).show()
+            btnToggleBot.setBackgroundColor(Color.parseColor("#10B981")) // Verde Activo
+            btnToggleBot.text = "NÚCLEO EN LÍNEA"
+            
+            // Verificación asíncrona real del servidor
+            CoroutineScope(Dispatchers.Main).launch {
+                val (success, message) = networkManager.checkServerUpdate("https://raw.githubusercontent.com/killerrhtml-crypto/indrive-bot/main/update_info.json")
+                txtTelemetryInfo.text = "ID: $deviceId\nRed Móvil: Activa\nEstado Servidor: $message\nÚltimo: $timestamp"
+            }
         }
 
         btnMenuOptions.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 }
