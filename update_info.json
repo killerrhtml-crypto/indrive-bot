@@ -1,6 +1,6 @@
 {
-  "versionCode": 2,
-  "versionName": "1.0.1",
-  "releaseNotes": "Actualización de estabilidad y optimización de red de datos.",
+  "versionCode": 3,
+  "versionName": "1.0.2",
+  "releaseNotes": "Unificación de MainActivity y Dashboard para máxima estabilidad.",
   "apkUrl": "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
 }
