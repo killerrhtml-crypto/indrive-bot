@@ -2,12 +2,16 @@ package com.app.bot
 
 import android.app.AlertDialog
 import android.app.DownloadManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.database.Cursor
 import android.graphics.Color
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,11 +19,13 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import java.io.BufferedReader
 import java.io.File
@@ -31,9 +37,44 @@ class MainActivity : AppCompatActivity() {
 
     private var isRunning = false
     private var downloadId: Long = -1L
+    private val CHANNEL_ID = "king_system_notifications"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel()
+        
+        // Mostrar pantalla de seguridad PIN antes de dejar entrar al Dashboard
+        showSecurityPinDialog()
+    }
+
+    private fun showSecurityPinDialog() {
+        val input = EditText(this).apply {
+            hint = "Ingrese PIN de seguridad (Ej: 1234)"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            setTextColor(Color.WHITE)
+            setHintTextColor(Color.GRAY)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("King System - Seguridad")
+            .setMessage("Acceso protegido al núcleo del bot:")
+            .setView(input)
+            .setCancelable(false)
+            .setPositiveButton("Verificar") { _, _ ->
+                val pin = input.text.toString()
+                if (pin == "1234" || pin == "0000") {
+                    Toast.makeText(this, "Acceso concedido", Toast.LENGTH_SHORT).show()
+                    loadDashboardView()
+                } else {
+                    Toast.makeText(this, "PIN Incorrecto", Toast.LENGTH_SHORT).show()
+                    showSecurityPinDialog()
+                }
+            }
+            .setNegativeButton("Salir") { _, _ -> finish() }
+            .show()
+    }
+
+    private fun loadDashboardView() {
         try {
             setContentView(R.layout.activity_dashboard)
 
@@ -49,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                     btnToggleBot.text = "DETENER NÚCLEO BOT"
                     btnToggleBot.setBackgroundColor(Color.parseColor("#EF4444"))
                     Toast.makeText(this, "Núcleo activado correctamente", Toast.LENGTH_SHORT).show()
+                    sendLocalNotification("King System", "Núcleo del bot activado y operando en segundo plano.")
                 } else {
                     btnToggleBot.text = "INICIAR NÚCLEO BOT"
                     btnToggleBot.setBackgroundColor(Color.parseColor("#38BDF8"))
@@ -80,6 +122,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "King System Alertas"
+            val descriptionText = "Canal para notificaciones de actualizaciones y estado"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+                enableVibration(true)
+            }
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun sendLocalNotification(title: String, message: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSound(soundUri)
+            .setVibrate(longArrayOf(0, 500, 250, 500))
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+    }
+
     private fun checkCloudBuildStatus() {
         Toast.makeText(this, "Consultando estado del Build...", Toast.LENGTH_SHORT).show()
         Thread {
@@ -100,26 +178,18 @@ class MainActivity : AppCompatActivity() {
                     val jsonStr = response.toString()
                     val status = extractJsonString(jsonStr, "status")
                     val message = extractJsonString(jsonStr, "message")
-                    val timestamp = extractJsonString(jsonStr, "timestamp")
 
                     Handler(Looper.getMainLooper()).post {
-                        val iconTitle = when (status) {
-                            "BUILDING" -> "🟡 Compilando en la nube..."
-                            "SUCCESS" -> "🟢 ¡APK Compilado con Éxito!"
-                            "FAILED" -> "🔴 Error en la Compilación"
-                            else -> "⚪ Sistema Operativo"
-                        }
-
                         AlertDialog.Builder(this)
-                            .setTitle(iconTitle)
-                            .setMessage("Detalles:\n$message\n\nActualizado: $timestamp")
+                            .setTitle("Estado: $status")
+                            .setMessage(message)
                             .setPositiveButton("Cerrar", null)
                             .show()
                     }
                 }
             } catch (e: Exception) {
                 Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(this, "Sin conexión al servidor de estado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Sin conexión al servidor", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()
@@ -156,6 +226,7 @@ class MainActivity : AppCompatActivity() {
 
                     Handler(Looper.getMainLooper()).post {
                         if (remoteVersionCode > localVersionCode) {
+                            sendLocalNotification("Actualización Disponible", "Nueva versión $remoteVersionName lista para descargar.")
                             showUpdateDialog(remoteVersionName)
                         } else {
                             Toast.makeText(this, "Ya tienes la última versión instalada", Toast.LENGTH_LONG).show()
@@ -257,28 +328,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCommitHistoryDialog() {
-        val commits = """
-            • [commit 8f1b20]: King System Rebrand y vistas estables.
-            • [commit 4a2b91]: Interfaz optimizada sin errores de XML.
-            • [commit 1f8c32]: Integración de FileProvider para updates.
-        """.trimIndent()
-
         AlertDialog.Builder(this)
             .setTitle("Historial de Versiones")
-            .setMessage(commits)
+            .setMessage("• v1.0.5: Pantalla de seguridad PIN, notificaciones nativas con sonido y vibración integradas.")
             .setPositiveButton("Cerrar", null)
             .show()
     }
 
     private fun showNotificationsDialog() {
-        val notifications = """
-            • [10:15 AM] Carlos Mendoza solicitó revisión de licencia.
-            • [09:42 AM] King System actualizado a versión v1.0.3 exitosamente.
-        """.trimIndent()
-
         AlertDialog.Builder(this)
             .setTitle("Centro de Notificaciones")
-            .setMessage(notifications)
+            .setMessage("• [Sistema] Seguridad PIN activa al iniciar.\n• [Actualización] Canal de alertas configurado con sonido y vibración.")
             .setPositiveButton("Limpiar") { _, _ ->
                 Toast.makeText(this, "Notificaciones marcadas como leídas", Toast.LENGTH_SHORT).show()
             }

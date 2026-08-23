@@ -1,6 +1,6 @@
 {
-  "versionCode": 5,
-  "versionName": "1.0.4",
-  "releaseNotes": "Integración de Material Components con tarjetas flotantes y diseño prémium.",
+  "versionCode": 6,
+  "versionName": "1.0.5",
+  "releaseNotes": "Incorporación de seguridad PIN de acceso y notificaciones locales con sonido y vibración.",
   "apkUrl": "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
 }
