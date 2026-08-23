@@ -1,6 +1,6 @@
 {
-  "versionCode": 9,
-  "versionName": "1.0.8",
-  "releaseNotes": "Versión empresarial 1.0.8 con base de datos SQLite, biometría y estadísticas avanzadas.",
+  "versionCode": 10,
+  "versionName": "1.0.9",
+  "releaseNotes": "Versión 1.0.9: Integración de gráficas profesionales, biometría y base de datos SQL.",
   "apkUrl": "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
 }
