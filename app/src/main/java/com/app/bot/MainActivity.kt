@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         txtTelemetryInfo.text = "ID Dispositivo: $deviceId\nIP Red Móvil: Conectada (LTE)\nEstado Licencia: Verificada (SQLite)\nÚltimo Registro: $timestamp"
 
         btnToggleBot.setOnClickListener {
-            Toast.setVisibility(Toast.LENGTH_SHORT)
             Toast.makeText(this, "Núcleo Bot Activado con Red Móvil", Toast.LENGTH_SHORT).show()
         }
 
