@@ -8,11 +8,12 @@ android {
     compileSdk 34
 
     defaultConfig {
+        // Asegúrate de que este applicationId coincida exactamente con el de tu primer APK funcional
         applicationId "com.app.bot"
         minSdk 24
         targetSdk 34
-        versionCode 12
-        versionName "1.1.0"
+        versionCode 20 // Incrementamos para que Android acepte la actualización limpia sobre el anterior
+        versionName "2.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
