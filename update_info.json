@@ -1,6 +1,6 @@
 {
-  "versionCode": 7,
-  "versionName": "1.0.6",
-  "releaseNotes": "Versión firmada 1.0.6 con lector JSON optimizado y firmas visibles.",
+  "versionCode": 8,
+  "versionName": "1.0.7",
+  "releaseNotes": "Versión 1.0.7 con soporte SQLite y telemetría de red móvil.",
   "apkUrl": "https://github.com/killerrhtml-crypto/indrive-bot/releases/download/latest/app-debug.apk"
 }
