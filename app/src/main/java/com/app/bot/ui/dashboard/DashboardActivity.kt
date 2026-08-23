@@ -96,11 +96,9 @@ class DashboardActivity : AppCompatActivity() {
 
                     val jsonStr = response.toString()
                     
-                    // Extracción simple de versionCode y versionName del JSON sin librerías pesadas
                     val remoteVersionCode = extractJsonInt(jsonStr, "versionCode")
                     val remoteVersionName = extractJsonString(jsonStr, "versionName")
 
-                    // Obtener la versión instalada actualmente en el dispositivo
                     val pInfo = packageManager.getPackageInfo(packageName, 0)
                     val localVersionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         pInfo.longVersionCode.toInt()
@@ -111,10 +109,8 @@ class DashboardActivity : AppCompatActivity() {
 
                     Handler(Looper.getMainLooper()).post {
                         if (remoteVersionCode > localVersionCode) {
-                            // Hay una versión más nueva disponible
                             showUpdateDialog(remoteVersionName, tvLog)
                         } else {
-                            // Ya tienes la última versión o superior
                             Toast.makeText(this, "Ya tienes la última versión instalada ($localVersionCode)", Toast.LENGTH_LONG).show()
                             tvLog.append("\n[OTA] Sistema al día. Versión actual: $localVersionCode")
                         }
@@ -205,7 +201,7 @@ class DashboardActivity : AppCompatActivity() {
             if (!file.exists()) return
 
             val uri: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                FileProvider.getUriForFile(this, "${applicationId}.fileprovider", file)
+                FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
             } else {
                 Uri.fromFile(file)
             }
@@ -222,7 +218,6 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    // Funciones auxiliares para parsear el JSON de forma nativa sin librerías externas
     private fun extractJsonInt(json: String, key: String): Int {
         try {
             val regex = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
