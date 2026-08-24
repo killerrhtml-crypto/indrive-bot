@@ -1,4 +1,4 @@
-package com.app.bot
+package com.killerrhtml.indrivebot
 
 import android.view.LayoutInflater
 import android.view.View

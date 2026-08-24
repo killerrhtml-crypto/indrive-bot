@@ -1,4 +1,4 @@
-package com.app.bot
+package com.killerrhtml.indrivebot
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription

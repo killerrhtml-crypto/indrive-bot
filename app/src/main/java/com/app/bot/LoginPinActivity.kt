@@ -1,4 +1,4 @@
-package com.app.bot
+package com.killerrhtml.indrivebot
 
 import android.content.Intent
 import android.os.Bundle

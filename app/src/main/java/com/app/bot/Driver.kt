@@ -1,4 +1,4 @@
-package com.app.bot
+package com.killerrhtml.indrivebot
 
 data class Driver(
     val id: String,
