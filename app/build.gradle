@@ -70,7 +70,7 @@ android {
         }
         debug {
             // Forzamos que GitHub Actions firme el APK de prueba con tu Keystore
-            signingConfig signingConfigs.king_release
+            
         }
     }
 }
