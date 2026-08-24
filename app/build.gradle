@@ -8,7 +8,6 @@ android {
     compileSdk 34
 
     // AQUI INYECTAMOS TU FIRMA PERMANENTE
-    signingConfigs {
         release {
             storeFile file("kingsystem.jks")
             storePassword "king2026"
@@ -30,11 +29,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
         debug {
             // Forzamos a que GitHub Actions también use tu firma en pruebas
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -56,7 +53,6 @@ dependencies {
 
 // --- INYECCIÓN NÚCLEO KING SYSTEM ---
 android {
-    signingConfigs {
         king_release {
             storeFile file("kingsystem.jks")
             storePassword "king2026"
@@ -66,7 +62,6 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.king_release
         }
         debug {
             // Forzamos que GitHub Actions firme el APK de prueba con tu Keystore
