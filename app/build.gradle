@@ -4,24 +4,16 @@ plugins {
 }
 
 android {
-    namespace 'com.app.bot'
+    namespace 'com.killerrhtml.indrivebot'
     compileSdk 34
 
-    // AQUI INYECTAMOS TU FIRMA PERMANENTE
-        release {
-            storeFile file("kingsystem.jks")
-            storePassword "king2026"
-            keyAlias "kingcore"
-            keyPassword "king2026"
-        }
-    }
-
     defaultConfig {
-        applicationId "com.app.bot"
+        applicationId "com.killerrhtml.indrivebot"
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,67 +22,21 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            // Forzamos a que GitHub Actions también use tu firma en pruebas
-        }
     }
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions { jvmTarget = '1.8' }
+    
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Librerías nuevas que necesitábamos
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
 }
-
-// --- INYECCIÓN NÚCLEO KING SYSTEM ---
-android {
-        king_release {
-            storeFile file("kingsystem.jks")
-            storePassword "king2026"
-            keyAlias "kingcore"
-            keyPassword "king2026"
-        }
-    }
-    buildTypes {
-        release {
-        }
-        debug {
-            // Forzamos que GitHub Actions firme el APK de prueba con tu Keystore
-            
-        }
-    }
-
-
-dependencies {
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
-}
-
-// --- DECODIFICADOR DE LLAVE EN TIEMPO DE COMPILACIÓN ---
-task decodeKeystore {
-    doLast {
-        def keystoreTxt = file('src/main/java/com/app/bot/KeystoreData.txt')
-        def outputJks = file('kingsystem.jks')
-        if (keystoreTxt.exists() && !outputJks.exists()) {
-            def encodedBytes = keystoreTxt.text.replaceAll("\\s", "")
-            outputJks.bytes = encodedBytes.decodeBase64()
-            println "✅ Llave Keystore reconstruida con éxito."
-        }
-    }
-
-
-// Asegurarse de que la decodificación ocurra antes de que empiece a compilar o validar firmas
-tasks.whenTaskAdded { task ->
-    if (task.name.startsWith('validateSigning') || task.name.startsWith('package')) {
-        task.dependsOn decodeKeystore
-    }
-
