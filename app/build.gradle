@@ -68,7 +68,7 @@ android {
             
         }
     }
-}
+
 
 dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
@@ -86,11 +86,11 @@ task decodeKeystore {
             println "✅ Llave Keystore reconstruida con éxito."
         }
     }
-}
+
 
 // Asegurarse de que la decodificación ocurra antes de que empiece a compilar o validar firmas
 tasks.whenTaskAdded { task ->
     if (task.name.startsWith('validateSigning') || task.name.startsWith('package')) {
         task.dependsOn decodeKeystore
     }
-}
+
